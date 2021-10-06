@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "justanothermod",
+  "version": "${version}",
+  "name": "JustAnotherMod",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/JustAnotherMod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.myaltsthis.justanothermod.client.JustAnotherModClient"
+    ],
+    "main": [
+      "me.myaltsthis.justanothermod.JustAnotherMod"
+    ]
+  },
+  "mixins": [
+    "JustAnotherMod.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.7",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
