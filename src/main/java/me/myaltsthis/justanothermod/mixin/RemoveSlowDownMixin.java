@@ -2,26 +2,29 @@ package me.myaltsthis.justanothermod.mixin;
 
 import com.mojang.authlib.GameProfile;
 import me.myaltsthis.justanothermod.client.JustAnotherModClient;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClientPlayerEntity.class)
-public abstract class RemoveSlowDownMixin extends AbstractClientPlayerEntity {
+public class RemoveSlowDownMixin {
 
-    public RemoveSlowDownMixin(ClientWorld clientWorld, GameProfile gameProfile) {
-        super(clientWorld, gameProfile);
+    private boolean isEnabled() {
+        return JustAnotherModClient.isButtonEnabled();
     }
 
     @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)
     private void changeReturn(CallbackInfoReturnable<Boolean> cir) {
-        if (JustAnotherModClient.isButtonEnabled())
+        if (isEnabled())
             cir.setReturnValue(false);
     }
 
@@ -34,9 +37,20 @@ public abstract class RemoveSlowDownMixin extends AbstractClientPlayerEntity {
             )
     )
     private boolean notUsingItem(ClientPlayerEntity instance) {
-        if (JustAnotherModClient.isButtonEnabled())
+        if (isEnabled())
             return false;
         return instance.isUsingItem();
+    }
+
+    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tickMovement()V"))
+    private void injectedSprint(CallbackInfo ci) {
+
+        if (isEnabled()) {
+            ClientPlayerEntity player = ((ClientPlayerEntity) (Object) this);
+            if (player.input.movementForward != 0 || player.input.movementSideways != 0) {
+                player.setSprinting(true);
+            }
+        }
     }
 }
 
