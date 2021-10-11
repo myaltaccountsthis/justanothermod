@@ -1,11 +1,8 @@
 package me.myaltsthis.justanothermod.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.AddServerScreen;
+import me.myaltsthis.justanothermod.client.JustAnotherModClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.advancement.AdvancementsScreen;
-import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -22,8 +19,11 @@ public abstract class GameMenuScreenMixin extends Screen {
 
     @Inject(at = @At("RETURN"), method = "initWidgets")
     private void addCustomButton(CallbackInfo ci) {
-        this.addDrawableChild(new ButtonWidget(this.width - 4 - 98, this.height - 4 - 20, 98, 20, new TranslatableText("lol"), (button) -> {
-            MinecraftClient.getInstance().setScreen(new SelectWorldScreen(this));
-        }));
+        ButtonWidget button = new ButtonWidget(this.width - 4 - 98, this.height - 4 - 20, 98, 20, new TranslatableText(JustAnotherModClient.isButtonEnabled() ? "Enabled" : "Disabled"), (btn) -> {
+            JustAnotherModClient.setToggleButtonText(btn.getMessage().getString().equals("Enabled") ? "Disabled" : "Enabled");
+            System.out.println("Toggled " + btn.getMessage().getString());
+        });
+        JustAnotherModClient.setToggleButton(button);
+        this.addDrawableChild(button);
     }
 }

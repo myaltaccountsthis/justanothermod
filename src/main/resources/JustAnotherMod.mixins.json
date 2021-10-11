@@ -4,7 +4,8 @@
   "package": "me.myaltsthis.justanothermod.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "GameMenuScreenMixin"
+    "GameMenuScreenMixin",
+    "RemoveSlowDownMixin"
   ],
   "client": [
   ],
