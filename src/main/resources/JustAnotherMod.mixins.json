@@ -4,8 +4,10 @@
   "package": "me.myaltsthis.justanothermod.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "ChunkBuilderMixin",
     "FluidMixin",
     "GameMenuScreenMixin",
+    "OptionsMixin",
     "RemoveSlowDownMixin"
   ],
   "client": [

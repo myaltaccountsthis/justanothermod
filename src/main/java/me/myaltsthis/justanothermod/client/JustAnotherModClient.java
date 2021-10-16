@@ -10,6 +10,7 @@ import net.minecraft.text.TranslatableText;
 public class JustAnotherModClient implements ClientModInitializer {
     private static ButtonWidget toggleButton;
     private static boolean enabled = false;
+
     public static void setToggleButton(ButtonWidget btn) {
         toggleButton = btn;
     }
@@ -24,6 +25,6 @@ public class JustAnotherModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        System.out.println("yes");
+        System.out.println("loaded");
     }
 }

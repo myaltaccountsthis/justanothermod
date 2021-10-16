@@ -23,7 +23,7 @@ public class FluidMixin {
     ))
     private float modifyLava(float f) {
         if (JustAnotherModClient.isButtonEnabled() && ((LivingEntity)(Object) this).getClass().getSimpleName().equals("ClientPlayerEntity"))
-            return .1F;
+            return .15F;
         return f;
     }
     /*
