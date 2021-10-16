@@ -23,7 +23,7 @@ public abstract class GameMenuScreenMixin extends Screen {
     private void addCustomButton(CallbackInfo ci) {
         // main toggle
         {
-            ButtonWidget button = new ButtonWidget(this.width + (-4 - 98), this.height - (4 - 20), 98, 20, new TranslatableText(JustAnotherModClient.isButtonEnabled() ? "Enabled" : "Disabled"), (btn) -> {
+            ButtonWidget button = new ButtonWidget(this.width + (-4 - 98), this.height + (-4 - 20), 98, 20, new TranslatableText(JustAnotherModClient.isButtonEnabled() ? "Enabled" : "Disabled"), (btn) -> {
                 JustAnotherModClient.setToggleButtonText(btn.getMessage().getString().equals("Enabled") ? "Disabled" : "Enabled");
                 System.out.println("Toggled " + btn.getMessage().getString());
             });
