@@ -1,7 +1,7 @@
 package me.myaltsthis.justanothermod.mixin;
 
 import com.mojang.authlib.GameProfile;
-import me.myaltsthis.justanothermod.client.JustAnotherModClient;
+import me.myaltsthis.justanothermod.client.MyGameOptions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class RemoveSlowDownMixin {
 
     private boolean isEnabled() {
-        return JustAnotherModClient.isButtonEnabled();
+        return MyGameOptions.enhancedMovement;
     }
 
     @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)

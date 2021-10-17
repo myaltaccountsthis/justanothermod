@@ -6,8 +6,8 @@
   "mixins": [
     "FluidMixin",
     "FogMixin",
-    "GameMenuScreenMixin",
     "OptionsMixin",
+    "OptionsScreenMixin",
     "RemoveSlowDownMixin"
   ],
   "client": [

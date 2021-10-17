@@ -10,8 +10,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class OptionsMixin {
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/DoubleOption;setMax(F)V"))
     private void changeMaxRenderDistance(DoubleOption instance, float max) {
-        System.out.println("max is uh: " + max);
         instance.setMax(64);
-        System.out.println("now it is: " + instance.getMax());
+        System.out.println("set max");
     }
 }

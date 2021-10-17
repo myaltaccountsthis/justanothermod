@@ -1,4 +1,4 @@
-public interface MyOptionsScreen extends GameOptionsScreen - custom option screen
+public class MyOptionsScreen extends GameOptionsScreen - custom option screen
     // properties for values
 
 class for reading/writing from files for above class and more
