@@ -10,7 +10,6 @@ import net.minecraft.text.TranslatableText;
 public class JustAnotherModClient implements ClientModInitializer {
     private static ButtonWidget toggleButton;
     private static boolean enabled = false;
-
     public static void setToggleButton(ButtonWidget btn) {
         toggleButton = btn;
     }
@@ -20,6 +19,19 @@ public class JustAnotherModClient implements ClientModInitializer {
     }
     public static boolean isButtonEnabled() {
         return enabled;
+    }
+
+    private static ButtonWidget fogButton;
+    private static boolean fogToggle = false;
+    public static void setFogButton(ButtonWidget btn) {
+        fogButton = btn;
+    }
+    public static void setFogButtonText(String text) {
+        fogButton.setMessage(new TranslatableText(text));
+        fogToggle = text.equals("Fog Disabled");
+    }
+    public static boolean isFogToggled() {
+        return fogToggle;
     }
 
     @Override

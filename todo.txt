@@ -1,0 +1,6 @@
+public interface MyOptionsScreen extends GameOptionsScreen - custom option screen
+    // properties for values
+
+class for reading/writing from files for above class and more
+
+public class ToggleableButton extends ButtonWidget - button with DoubleOption or CyclingOption

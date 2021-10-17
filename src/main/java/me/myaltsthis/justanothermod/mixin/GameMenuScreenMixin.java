@@ -30,10 +30,19 @@ public abstract class GameMenuScreenMixin extends Screen {
             JustAnotherModClient.setToggleButton(button);
             this.addDrawableChild(button);
         }
-        // set render distance to 64
+        // fog toggle (reversed, off = fog, on = no fog)
         {
-            ButtonWidget button = new ButtonWidget(this.width + (-4 - 98), this.height + 2 * (-4 - 20), 98, 20, new TranslatableText("RD MAX"), (btn) -> {
-                Option.RENDER_DISTANCE.set(MinecraftClient.getInstance().options, 64);
+            ButtonWidget button = new ButtonWidget(this.width + (-4 - 98), this.height + 2 * (-4 - 20), 98, 20, new TranslatableText(JustAnotherModClient.isFogToggled() ? "Fog Disabled" : "Fog Enabled"), (btn) -> {
+                JustAnotherModClient.setFogButtonText(btn.getMessage().getString().equals("Fog Enabled") ? "Fog Disabled" : "Fog Enabled");
+                System.out.println("Toggled " + btn.getMessage().getString());
+            });
+            JustAnotherModClient.setFogButton(button);
+            this.addDrawableChild(button);
+        }
+        // set render distance to max
+        {
+            ButtonWidget button = new ButtonWidget(this.width + (-4 - 98), this.height + 3 * (-4 - 20), 98, 20, new TranslatableText("RD MAX"), (btn) -> {
+                Option.RENDER_DISTANCE.set(MinecraftClient.getInstance().options, 32);
                 System.out.println("Set RD to max");
             });
             this.addDrawableChild(button);
