@@ -6,10 +6,12 @@ import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.CyclingOption;
+import net.minecraft.client.option.DoubleOption;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.Option;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
         this.addSelectableChild(this.list);
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20, ScreenTexts.DONE, (button) -> {
             MyGameOptions.write();
+            //this.client.options.write();
             this.client.setScreen(this.parent);
         }));
         super.init();
@@ -37,6 +40,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
     public void removed() {
         MyGameOptions.write();
+        this.client.options.write();
         super.removed();
     }
 
@@ -53,16 +57,25 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
 
     static {
-        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG};
+        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS};
     }
 
     public abstract static class MyOptions {
         public static final CyclingOption<Boolean> ENHANCED_MOVEMENT;
         public static final CyclingOption<Boolean> FOG;
+        public static final DoubleOption BRIGHTNESS;
 
         static {
             ENHANCED_MOVEMENT = CyclingOption.create("options.enhancedMovement", (gameOptions) -> MyGameOptions.enhancedMovement, (gameOptions, option, enableEnhancedMovement) -> MyGameOptions.enhancedMovement = enableEnhancedMovement);
             FOG = CyclingOption.create("options.fog", (gameOptions) -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
+            BRIGHTNESS = new DoubleOption("options.brightness", 0.0D, 10.0D, 0.1F, (gameOptions) -> {
+                return gameOptions.gamma;
+            }, (gameOptions, gamma) -> {
+                gameOptions.gamma = gamma;
+            }, (gameOptions, option) -> {
+                double d = option.get(gameOptions);
+                return new TranslatableText("options.gamma").append(": " + Math.round(d * 100) + "%");
+            });
         }
     }
 }

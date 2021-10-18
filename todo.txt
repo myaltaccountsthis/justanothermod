@@ -4,3 +4,9 @@ public class MyOptionsScreen extends GameOptionsScreen - custom option screen
 class for reading/writing from files for above class and more
 
 public class ToggleableButton extends ButtonWidget - button with DoubleOption or CyclingOption
+
+
+mining down strategy:
+swamp clay:
+on z +4 or +7
+if find lapis then -4

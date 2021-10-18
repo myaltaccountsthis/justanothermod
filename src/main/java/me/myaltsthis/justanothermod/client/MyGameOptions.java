@@ -251,7 +251,7 @@ public abstract class MyGameOptions {
         } catch (Exception var6) {
             MyGameOptions.LOGGER.error("Failed to save options", var6);
         }
-        LOGGER.log(Level.INFO, "Wrote to file");
+        //LOGGER.log(Level.INFO, "Wrote to file");
     }
 
     @Environment(EnvType.CLIENT)
