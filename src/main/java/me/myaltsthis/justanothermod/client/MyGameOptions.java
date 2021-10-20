@@ -6,9 +6,11 @@ import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.datafixer.DataFixTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
@@ -16,6 +18,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -31,10 +34,15 @@ public abstract class MyGameOptions {
     private static final File optionsFile;
     public static boolean enhancedMovement = false;
     public static boolean fog = false;
+    public static double zoomAmount = 4.0D;
+
+    public static final KeyBinding[] keysAll;
+    public static final KeyBinding keyZoom;
     
     private static void accept(MyGameOptions.Visitor visitor) {
         enhancedMovement = visitor.visitBoolean("enhancedMovement", enhancedMovement);
         fog = visitor.visitBoolean("fog", fog);
+        zoomAmount = visitor.visitDouble("zoomAmount", zoomAmount);
     }
 
     public static void load() {
@@ -254,7 +262,6 @@ public abstract class MyGameOptions {
         //LOGGER.log(Level.INFO, "Wrote to file");
     }
 
-    @Environment(EnvType.CLIENT)
     private interface Visitor {
         int visitInt(String key, int current);
 
@@ -273,6 +280,9 @@ public abstract class MyGameOptions {
     
     static {
         optionsFile = new File(MinecraftClient.getInstance().runDirectory, "optionsjam.txt");
+        keyZoom = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "key.categories.misc"));
+        keysAll = new KeyBinding[] {keyZoom};
+
         MyGameOptions.load();
     }
 }

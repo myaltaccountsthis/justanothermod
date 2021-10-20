@@ -8,7 +8,7 @@ import net.fabricmc.api.Environment;
 public class JustAnotherModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-
+        System.out.println("Checking options: " + MyGameOptions.zoomAmount);
         System.out.println("loaded");
     }
 }
