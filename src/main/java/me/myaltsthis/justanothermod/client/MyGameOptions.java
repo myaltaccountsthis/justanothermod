@@ -32,6 +32,7 @@ public abstract class MyGameOptions {
     public static boolean enhancedMovement = false;
     public static boolean fog = false;
     public static double zoomAmount = 4.0D;
+    public static double maxFOV = 110.0F;
 
     public static final KeyBinding[] keysAll;
     public static final KeyBinding keyZoom;
@@ -40,6 +41,7 @@ public abstract class MyGameOptions {
         enhancedMovement = visitor.visitBoolean("enhancedMovement", enhancedMovement);
         fog = visitor.visitBoolean("fog", fog);
         zoomAmount = visitor.visitDouble("zoomAmount", zoomAmount);
+        maxFOV = visitor.visitDouble("maxFOV", maxFOV);
     }
 
     public static void load() {

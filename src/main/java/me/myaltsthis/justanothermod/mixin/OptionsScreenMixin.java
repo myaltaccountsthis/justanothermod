@@ -1,12 +1,18 @@
 package me.myaltsthis.justanothermod.mixin;
 
+import me.myaltsthis.justanothermod.client.MyGameOptions;
 import me.myaltsthis.justanothermod.client.MyOptionsScreen;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.option.DoubleOption;
+import net.minecraft.client.option.Option;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,11 +21,13 @@ import java.awt.*;
 
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin extends Screen {
+    @Shadow @Final private static Option[] OPTIONS;
+
     protected OptionsScreenMixin(Text text) {
         super(text);
     }
 
-    @Inject(at = @At("RETURN"), method = "init")
+    @Inject(method = "init", at = @At("RETURN"))
     private void addCustomButton(CallbackInfo ci) {
         // button for menu
         {
@@ -28,5 +36,13 @@ public abstract class OptionsScreenMixin extends Screen {
             });
             this.addDrawableChild(button);
         }
+    }
+
+    @Inject(method = "init", at = @At("HEAD"))
+    private void changeMaxFOV(CallbackInfo ci) {
+        DoubleOption doubleOption = ((DoubleOption) OPTIONS[0]);
+        double d = MyGameOptions.maxFOV / 1.15;
+        doubleOption.setMax((float) d);
+        doubleOption.set(MinecraftClient.getInstance().options, Math.min(doubleOption.get(MinecraftClient.getInstance().options), d));
     }
 }

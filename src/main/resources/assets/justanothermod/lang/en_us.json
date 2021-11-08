@@ -2,5 +2,7 @@
   "options.enhancedMovement": "Monkey Mode",
   "options.fog": "Disable Fog",
   "options.zoomAmount": "Zoom Amount",
+  "options.maxFOV": "Max FOV",
+  "options.setMaxFOV": "Auto Set Max FOV",
   "key.zoom": "Zoom"
 }

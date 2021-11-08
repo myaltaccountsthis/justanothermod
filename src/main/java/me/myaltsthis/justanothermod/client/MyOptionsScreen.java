@@ -1,6 +1,7 @@
 package me.myaltsthis.justanothermod.client;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
@@ -37,6 +38,9 @@ public class MyOptionsScreen extends GameOptionsScreen {
             //this.client.options.write();
             this.client.setScreen(this.parent);
         }));
+        this.addDrawableChild(new ButtonWidget(this.width - 110, this.height - 27, 100, 20, new TranslatableText("options.setMaxFOV"), (button) -> {
+            MyGameOptions.maxFOV = MinecraftClient.getInstance().options.fov * 1.15;
+        }));
         super.init();
     }
 
@@ -59,7 +63,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
 
     static {
-        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT};
+        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV};
     }
 
     public abstract static class MyOptions {
@@ -67,6 +71,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
         public static final CyclingOption<Boolean> FOG;
         public static final DoubleOption BRIGHTNESS;
         public static final DoubleOption ZOOM_AMOUNT;
+        public static final DoubleOption MAX_FOV;
 
 
         static {
@@ -74,6 +79,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
             FOG = CyclingOption.create("options.fog", (gameOptions) -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
             BRIGHTNESS = new DoubleOption("options.brightness", 0.0D, 10.0D, 0.1F, (gameOptions) -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> new TranslatableText("options.gamma").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
             ZOOM_AMOUNT = new DoubleOption("options.zoomAmount", 1.0D, 10.0D, 0.1F, (gameOptions) -> MyGameOptions.zoomAmount, (gameOptions, zoomAmount) -> MyGameOptions.zoomAmount = zoomAmount, (gameOptions, option) -> new TranslatableText("options.zoomAmount").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
+            MAX_FOV = new DoubleOption("options.maxFOV", 30.0D, 360.0D, 1.0F, (gameOptions) -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> new TranslatableText("options.maxFOV").append(": " + Math.round(option.get(gameOptions))));
         }
     }
 }
