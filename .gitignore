@@ -1,6 +1,7 @@
 # User-specific stuff
 .idea/
-src/main/java/me/myaltsthis/justanothermod/mixin/MainMixin.java
+src/main/java/me/myaltsthis/justanothermod/mixin/ignore.MainMixin.java
+src/main/java/ignore/
 
 *.iml
 *.ipr
