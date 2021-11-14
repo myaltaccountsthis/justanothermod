@@ -4,14 +4,15 @@
   "package": "me.myaltsthis.justanothermod.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "FluidMixin",
+    "AbstractClientPlayerEntityMixin",
+    "ClientPlayerEntityMixin",
+    "EntityMixin",
     "FogMixin",
-    "MainMixin",
-    "MaxFOVMixin",
+    "GameRendererMixin",
+    "LivingEntityMixin",
     "OptionsMixin",
     "OptionsScreenMixin",
-    "RemoveSlowDownMixin",
-    "ZoomMixin"
+    "WorldRendererMixin"
   ],
   "client": [
   ],

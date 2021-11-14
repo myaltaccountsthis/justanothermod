@@ -1,15 +1,14 @@
 package me.myaltsthis.justanothermod.mixin;
 
-import me.myaltsthis.justanothermod.client.MyGameOptions;
-import me.myaltsthis.justanothermod.client.MyGameOptions;
+import me.myaltsthis.justanothermod.MyGameOptions;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public class FluidMixin {
+public class LivingEntityMixin {
     @Shadow public float flyingSpeed;
 
     @ModifyVariable(method = "travel", at = @At("STORE"), ordinal = 2)
@@ -27,14 +26,4 @@ public class FluidMixin {
             return .15F;
         return f;
     }
-    /*
-    @Inject(method = "getMovementSpeed(F)F", at = @At("RETURN"), cancellable = true)
-    private void modifyMovementSpeed(float slipperiness, CallbackInfoReturnable<Float> cir) {
-        LivingEntity e = (LivingEntity) (Object) this;
-        if (MyGameOptions.isButtonEnabled() && e.getClass().getSimpleName().equals("ClientPlayerEntity")) {
-
-            cir.setReturnValue(e.isOnGround() ? e.getMovementSpeed() : flyingSpeed);
-        }
-    }
-     */
 }

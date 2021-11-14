@@ -1,4 +1,4 @@
-package me.myaltsthis.justanothermod.client;
+package me.myaltsthis.justanothermod;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;

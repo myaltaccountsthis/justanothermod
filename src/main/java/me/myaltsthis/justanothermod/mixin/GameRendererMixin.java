@@ -1,6 +1,6 @@
 package me.myaltsthis.justanothermod.mixin;
 
-import me.myaltsthis.justanothermod.client.MyGameOptions;
+import me.myaltsthis.justanothermod.MyGameOptions;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GameRenderer.class)
-public class ZoomMixin {
+public class GameRendererMixin {
 
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
     private void modifyFOV(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {

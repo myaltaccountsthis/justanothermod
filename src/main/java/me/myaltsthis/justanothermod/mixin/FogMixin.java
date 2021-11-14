@@ -1,7 +1,7 @@
 package me.myaltsthis.justanothermod.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.myaltsthis.justanothermod.client.MyGameOptions;
+import me.myaltsthis.justanothermod.MyGameOptions;
 import net.minecraft.client.render.BackgroundRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

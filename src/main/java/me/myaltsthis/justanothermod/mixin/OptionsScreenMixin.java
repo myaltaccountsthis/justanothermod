@@ -1,7 +1,7 @@
 package me.myaltsthis.justanothermod.mixin;
 
-import me.myaltsthis.justanothermod.client.MyGameOptions;
-import me.myaltsthis.justanothermod.client.MyOptionsScreen;
+import me.myaltsthis.justanothermod.MyGameOptions;
+import me.myaltsthis.justanothermod.MyOptionsScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
@@ -16,8 +16,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.awt.*;
 
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin extends Screen {
