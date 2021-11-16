@@ -6,12 +6,15 @@
   "mixins": [
     "AbstractClientPlayerEntityMixin",
     "ClientPlayerEntityMixin",
+    "DebugHudMixin",
     "EntityMixin",
     "FogMixin",
     "GameRendererMixin",
+    "ItemStackMixin",
     "LivingEntityMixin",
     "OptionsMixin",
     "OptionsScreenMixin",
+    "SplashTextMixin",
     "WorldRendererMixin"
   ],
   "client": [

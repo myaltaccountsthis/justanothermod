@@ -29,7 +29,7 @@ public abstract class OptionsScreenMixin extends Screen {
     private void addCustomButton(CallbackInfo ci) {
         // button for menu
         {
-            ButtonWidget button = new ButtonWidget(this.width / 2 - 49, this.height / 6 + 168 + (-20 - 4), 98, 20, new TranslatableText("Open Menu"), (btn) -> {
+            ButtonWidget button = new ButtonWidget(this.width / 2 - 49, this.height / 6 + 168 + (-20 - 4), 98, 20, new TranslatableText("justanothermod.openMenu"), (btn) -> {
                 this.client.setScreen(new MyOptionsScreen(this.client.currentScreen, this.client.options));
             });
             this.addDrawableChild(button);

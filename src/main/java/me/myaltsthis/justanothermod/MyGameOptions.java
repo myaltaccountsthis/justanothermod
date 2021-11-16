@@ -36,6 +36,7 @@ public abstract class MyGameOptions {
 
     public static final KeyBinding[] keysAll;
     public static final KeyBinding keyZoom;
+    public static final KeyBinding keyShowTooltip;
     
     private static void accept(MyGameOptions.Visitor visitor) {
         enhancedMovement = visitor.visitBoolean("enhancedMovement", enhancedMovement);
@@ -279,8 +280,9 @@ public abstract class MyGameOptions {
     
     static {
         optionsFile = new File(MinecraftClient.getInstance().runDirectory, "optionsjam.txt");
-        keyZoom = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "key.categories.misc"));
-        keysAll = new KeyBinding[] {keyZoom};
+        keyZoom = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "key.categories.misc"));
+        keyShowTooltip = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.showTooltip", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, "key.categories.misc"));
+        keysAll = new KeyBinding[] {keyZoom, keyShowTooltip};
 
         MyGameOptions.load();
     }

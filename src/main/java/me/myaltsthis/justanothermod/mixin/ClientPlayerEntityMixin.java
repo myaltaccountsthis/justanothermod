@@ -62,7 +62,7 @@ public class ClientPlayerEntityMixin {
         }
     }
 
-    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isClimbing()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
+    //@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isClimbing()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void autoElytra(CallbackInfo ci, boolean bl, boolean bl8) {
         boolean jumping = input.jumping;
         boolean flying = ((ClientPlayerEntity) (Object) this).getAbilities().flying;

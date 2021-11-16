@@ -32,7 +32,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
             //this.client.options.write();
             this.client.setScreen(this.parent);
         }));
-        this.addDrawableChild(new ButtonWidget(this.width - 110, this.height - 27, 100, 20, new TranslatableText("options.setMaxFOV"), (button) -> {
+        this.addDrawableChild(new ButtonWidget(this.width - 110, this.height - 27, 100, 20, new TranslatableText("justanothermod.options.setMaxFOV"), (button) -> {
             MyGameOptions.maxFOV = MinecraftClient.getInstance().options.fov * 1.15;
         }));
         super.init();
@@ -69,11 +69,11 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
 
         static {
-            ENHANCED_MOVEMENT = CyclingOption.create("options.enhancedMovement", (gameOptions) -> MyGameOptions.enhancedMovement, (gameOptions, option, enableEnhancedMovement) -> MyGameOptions.enhancedMovement = enableEnhancedMovement);
-            FOG = CyclingOption.create("options.fog", (gameOptions) -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
-            BRIGHTNESS = new DoubleOption("options.brightness", 0.0D, 10.0D, 0.1F, (gameOptions) -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> new TranslatableText("options.gamma").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
-            ZOOM_AMOUNT = new DoubleOption("options.zoomAmount", 1.0D, 10.0D, 0.1F, (gameOptions) -> MyGameOptions.zoomAmount, (gameOptions, zoomAmount) -> MyGameOptions.zoomAmount = zoomAmount, (gameOptions, option) -> new TranslatableText("options.zoomAmount").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
-            MAX_FOV = new DoubleOption("options.maxFOV", 30.0D, 360.0D, 1.0F, (gameOptions) -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> new TranslatableText("options.maxFOV").append(": " + Math.round(option.get(gameOptions))));
+            ENHANCED_MOVEMENT = CyclingOption.create("justanothermod.options.enhancedMovement", (gameOptions) -> MyGameOptions.enhancedMovement, (gameOptions, option, enableEnhancedMovement) -> MyGameOptions.enhancedMovement = enableEnhancedMovement);
+            FOG = CyclingOption.create("justanothermod.options.fog", (gameOptions) -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
+            BRIGHTNESS = new DoubleOption("customGamma", 0.0D, 10.0D, 0.1F, (gameOptions) -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> new TranslatableText("options.gamma").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
+            ZOOM_AMOUNT = new DoubleOption("justanothermod.options.zoomAmount", 1.0D, 10.0D, 0.1F, (gameOptions) -> MyGameOptions.zoomAmount, (gameOptions, zoomAmount) -> MyGameOptions.zoomAmount = zoomAmount, (gameOptions, option) -> new TranslatableText("justanothermod.options.zoomAmount").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
+            MAX_FOV = new DoubleOption("justanothermod.options.maxFOV", 30.0D, 360.0D, 1.0F, (gameOptions) -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> new TranslatableText("justanothermod.options.maxFOV").append(": " + Math.round(option.get(gameOptions))));
         }
     }
 }
