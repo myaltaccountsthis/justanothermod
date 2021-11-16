@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Mixin(SplashTextResourceSupplier.class)
 public class SplashTextMixin {
-    @Inject(method = "prepare(Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)Ljava/util/List;", at = @At("RETURN"), cancellable = true, remap = false)
+    @Inject(method = "prepare(Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)Ljava/util/List;", at = @At("RETURN"), cancellable = true)
     private void changeSplashText(ResourceManager resourceManager, Profiler profiler, CallbackInfoReturnable<List<String>> cir) {
         File file = new File("customsplash.txt");
         if (file.isFile()) {

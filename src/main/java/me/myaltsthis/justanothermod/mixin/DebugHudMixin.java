@@ -2,6 +2,7 @@ package me.myaltsthis.justanothermod.mixin;
 
 import me.myaltsthis.justanothermod.JustAnotherModClient;
 import me.myaltsthis.justanothermod.MyGameOptions;
+import me.myaltsthis.justanothermod.enums.NbtFilter;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.DebugHud;
@@ -20,10 +21,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @Mixin(DebugHud.class)
 public class DebugHudMixin {
+
     @Shadow private HitResult blockHit;
 
     @Inject(method = "getLeftText", at = @At("TAIL"))
@@ -55,9 +58,9 @@ public class DebugHudMixin {
                 if (entity != null) {
                     toAdd.add("Entity NBT");
                     if (pressed) {
-                        NbtCompound nbt = entity.writeNbt(new NbtCompound());
+                        NbtCompound nbt = JustAnotherModClient.getEntityNbt();
                         String nbtStr = JustAnotherModClient.toPrettyFormat(nbt.toString());
-                        toAdd.addAll(Arrays.stream(nbtStr.split("\n")).toList());
+                        toAdd.addAll(List.of(nbtStr.split("\n")));
                     } else {
                         toAdd.add(new TranslatableText("justanothermod.tooltipDefault").getString().replace("key", MyGameOptions.keyShowTooltip.getBoundKeyLocalizedText().getString()));
                     }

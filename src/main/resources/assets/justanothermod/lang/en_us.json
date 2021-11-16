@@ -7,5 +7,6 @@
   "justanothermod.options.setMaxFOV": "Auto Set Max FOV",
   "justanothermod.key.zoom": "Zoom",
   "justanothermod.key.showTooltip": "Show Tooltip",
+  "justanothermod.key.copyNbt": "Copy NBT",
   "justanothermod.tooltipDefault": "[(key) for NBT]"
 }
