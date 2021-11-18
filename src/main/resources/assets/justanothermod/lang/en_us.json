@@ -8,5 +8,6 @@
   "justanothermod.key.zoom": "Zoom",
   "justanothermod.key.showTooltip": "Show Tooltip",
   "justanothermod.key.copyNbt": "Copy NBT",
+  "justanothermod.key.refreshScan": "Scan Blocks",
   "justanothermod.tooltipDefault": "[(key) for NBT]"
 }

@@ -5,6 +5,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class MonkeyRenderer {
@@ -21,7 +23,9 @@ public class MonkeyRenderer {
         matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
         RenderSystem.disableDepthTest();
 
-        //WorldRenderer.drawBox(matrices, builder, 0, 50, 0, 1, 51, 1, 1f, 0f, 1f, 1);
+        for (BlockPos pos : BlockScanner.blocksToRender) {
+            WorldRenderer.drawBox(matrices, builder, new Box(pos), 1f, 0f, 1f, 1);
+        }
 
         matrices.pop();
         entityVertexConsumers.draw(MonkeyRenderType.OVERLAY_LINES);

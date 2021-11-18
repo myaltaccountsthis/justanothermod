@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.myaltsthis.justanothermod.enums.NbtFilter;
+import me.myaltsthis.justanothermod.render.BlockScanner;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,14 +15,10 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +35,7 @@ public class JustAnotherModClient implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Checking options: " + MyGameOptions.zoomAmount);
         KeyBinding copyNbt = MyGameOptions.keyCopyNbt;
+        KeyBinding refreshScan = MyGameOptions.keyRefreshScan;
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (copyNbt.wasPressed()) {
                 if (MinecraftClient.getInstance().player != null) {
@@ -45,6 +43,9 @@ public class JustAnotherModClient implements ClientModInitializer {
                     MinecraftClient.getInstance().keyboard.setClipboard(JustAnotherModClient.toPrettyFormat(nbt.toString()));
                     MinecraftClient.getInstance().player.sendSystemMessage(new LiteralText("Copied entity NBT to clipboard").formatted(Formatting.GREEN), null);
                 }
+            }
+            while (refreshScan.wasPressed()) {
+                BlockScanner.run();
             }
         });
         LOGGER.info("loaded");

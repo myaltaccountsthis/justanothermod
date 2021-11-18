@@ -34,9 +34,9 @@ public abstract class MyGameOptions {
     public static double zoomAmount = 4.0D;
     public static double maxFOV = 110.0F;
 
-    public static final KeyBinding[] keysAll;
     public static final KeyBinding keyZoom;
     public static final KeyBinding keyShowTooltip;
+    public static final KeyBinding keyRefreshScan;
     public static final KeyBinding keyCopyNbt;
     
     private static void accept(MyGameOptions.Visitor visitor) {
@@ -284,7 +284,7 @@ public abstract class MyGameOptions {
         keyZoom = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "key.categories.misc"));
         keyShowTooltip = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.showTooltip", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, "key.categories.misc"));
         keyCopyNbt = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.copyNbt", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_CONTROL, "key.categories.misc"));
-        keysAll = new KeyBinding[] {keyZoom, keyShowTooltip, keyCopyNbt};
+        keyRefreshScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.refreshScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_BACKSLASH, "key.categories.misc"));
 
         MyGameOptions.load();
     }
