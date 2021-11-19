@@ -35,7 +35,6 @@ public class JustAnotherModClient implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Checking options: " + MyGameOptions.zoomAmount);
         KeyBinding copyNbt = MyGameOptions.keyCopyNbt;
-        KeyBinding refreshScan = MyGameOptions.keyRefreshScan;
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (copyNbt.wasPressed()) {
                 if (MinecraftClient.getInstance().player != null) {
@@ -43,9 +42,6 @@ public class JustAnotherModClient implements ClientModInitializer {
                     MinecraftClient.getInstance().keyboard.setClipboard(JustAnotherModClient.toPrettyFormat(nbt.toString()));
                     MinecraftClient.getInstance().player.sendSystemMessage(new LiteralText("Copied entity NBT to clipboard").formatted(Formatting.GREEN), null);
                 }
-            }
-            while (refreshScan.wasPressed()) {
-                BlockScanner.run();
             }
         });
         LOGGER.info("loaded");

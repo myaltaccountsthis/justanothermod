@@ -39,7 +39,7 @@ public abstract class OptionsScreenMixin extends Screen {
     @Inject(method = "init", at = @At("HEAD"))
     private void changeMaxFOV(CallbackInfo ci) {
         DoubleOption doubleOption = ((DoubleOption) OPTIONS[0]);
-        double d = MyGameOptions.maxFOV / 1.15;
+        double d = MyGameOptions.maxFOV;
         doubleOption.setMax((float) d);
         doubleOption.set(MinecraftClient.getInstance().options, Math.min(doubleOption.get(MinecraftClient.getInstance().options), d));
     }

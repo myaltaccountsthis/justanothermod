@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.OptionalDouble;
 
 public class MonkeyRenderType extends RenderLayer {
-    private static final LineWidth THICK_LINES = new LineWidth(OptionalDouble.of(3.0D));
+    private static final LineWidth THICK_LINES = new LineWidth(OptionalDouble.of(2.0D));
     private static final RenderPhase.DepthTest noDepth =
             new RenderPhase.DepthTest("always", GL11.GL_ALWAYS);
 
