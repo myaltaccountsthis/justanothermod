@@ -14,6 +14,11 @@
   "justanothermod.options.scanLineWidth": "Scan Line Width",
   "justanothermod.options.zoomAmount": "Zoom Amount",
 
+  "justanothermod.options.nbtFilter": "Nbt Filter",
+  "justanothermod.options.nbtFilter.noFilter": "No Filter",
+  "justanothermod.options.nbtFilter.detailed": "Detailed Nbt",
+  "justanothermod.options.nbtFilter.basic": "Basic Nbt",
+
   "justanothermod.key.zoom": "Zoom",
   "justanothermod.key.showTooltip": "Show Tooltip",
   "justanothermod.key.copyNbt": "Copy NBT",

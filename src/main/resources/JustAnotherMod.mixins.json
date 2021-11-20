@@ -16,6 +16,7 @@
     "OptionsScreenMixin",
     "ScreenMixin",
     "SplashTextMixin",
+    "WorldMixin",
     "WorldRendererMixin"
   ],
   "client": [

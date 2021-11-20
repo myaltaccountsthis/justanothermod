@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.io.Files;
+import me.myaltsthis.justanothermod.enums.NbtFilter;
 import me.myaltsthis.justanothermod.render.MonkeyRenderType;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.SharedConstants;
@@ -37,6 +38,7 @@ public abstract class MyGameOptions {
     public static int scanDistance = 4;
     public static double scanAlphaOffset = -.3;
     public static double scanLineWidth = 3.0D;
+    public static NbtFilter nbtFilter = NbtFilter.BASIC;
 
     public static final KeyBinding keyZoom;
     public static final KeyBinding keyShowTooltip;
@@ -50,6 +52,7 @@ public abstract class MyGameOptions {
         scanDistance = visitor.visitInt("scanDistance", scanDistance);
         scanAlphaOffset = visitor.visitDouble("scanAlphaOffset", scanAlphaOffset);
         scanLineWidth = visitor.visitDouble("scanLineWidth", scanLineWidth);
+        nbtFilter = visitor.visitObject("nbtFilter", nbtFilter, NbtFilter::byId, NbtFilter::getId);
     }
 
     public static void load() {

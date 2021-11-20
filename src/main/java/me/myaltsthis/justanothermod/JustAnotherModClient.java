@@ -27,7 +27,8 @@ import java.util.List;
 public class JustAnotherModClient implements ClientModInitializer {
     private static final HashMap<NbtFilter, List<String>> keyFilter = new HashMap<>() {{
         put(NbtFilter.NO_FILTER, new ArrayList<>());
-        put(NbtFilter.DETAILED, List.of("CustomName", "OnGround", "UUID", "AbsorptionAmount", "ActiveEffects", "CanPickUpLoot", "Health", "HandDropChances", "HandItems", "PersistenceRequired", "playerGameType", "Score", "SpawnX", "SpawnY", "SpawnZ", "SpawnForced", "foodLevel", "foodSaturationLevel", "abilities"));
+        put(NbtFilter.DETAILED, List.of("CustomName", "OnGround", "UUID", "AbsorptionAmount", "ActiveEffects", "CanPickUpLoot", "Health", "HandDropChances", "HandItems", "PersistenceRequired", "playerGameType", "Score", "foodLevel", "foodSaturationLevel", "abilities", "Inventory"));
+        put(NbtFilter.BASIC, List.of("CustomName", "UUID", "AbsorptionAmount", "ActiveEffects", "Health", "playerGameType", "Score", "foodLevel", "foodSaturationLevel", "abilities"));
     }};
 
     public static Logger LOGGER = LogManager.getLogger("JustAnotherMod");
@@ -64,7 +65,7 @@ public class JustAnotherModClient implements ClientModInitializer {
         return MinecraftClient.getInstance().player != null ? MinecraftClient.getInstance().player.writeNbt(new NbtCompound()) : new NbtCompound();
     }
     public static NbtCompound getEntityNbt() {
-        return getEntityNbt(NbtFilter.NO_FILTER);
+        return getEntityNbt(MyGameOptions.nbtFilter);
     }
     public static String toPrettyFormat(String jsonString)
     {

@@ -1,6 +1,7 @@
 package me.myaltsthis.justanothermod.screen;
 
 import me.myaltsthis.justanothermod.MyGameOptions;
+import me.myaltsthis.justanothermod.enums.NbtFilter;
 import me.myaltsthis.justanothermod.render.MonkeyRenderType;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
@@ -60,32 +61,23 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
 
     static {
-        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH};
+        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH, MyOptions.NBT_FILTER};
     }
 
     public abstract static class MyOptions {
-        public static final CyclingOption<Boolean> ENHANCED_MOVEMENT;
-        public static final CyclingOption<Boolean> FOG;
-        public static final DoubleOption BRIGHTNESS;
-        public static final DoubleOption ZOOM_AMOUNT;
-        public static final DoubleOption MAX_FOV;
-        public static final DoubleOption SCAN_DISTANCE;
-        public static final DoubleOption SCAN_ALPHA_OFFSET;
-        public static final DoubleOption SCAN_LINE_WIDTH;
-
-        static {
-            ENHANCED_MOVEMENT = CyclingOption.create("justanothermod.options.enhancedMovement", gameOptions -> MyGameOptions.enhancedMovement, (gameOptions, option, enableEnhancedMovement) -> MyGameOptions.enhancedMovement = enableEnhancedMovement);
-            FOG = CyclingOption.create("justanothermod.options.fog", gameOptions -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
-            BRIGHTNESS = new DoubleOption("customGamma", 0.0D, 10.0D, 0.1F, gameOptions -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> new TranslatableText("options.gamma").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
-            ZOOM_AMOUNT = new DoubleOption("justanothermod.options.zoomAmount", 1.0D, 10.0D, 0.1F, gameOptions -> MyGameOptions.zoomAmount, (gameOptions, zoomAmount) -> MyGameOptions.zoomAmount = zoomAmount, (gameOptions, option) -> new TranslatableText("justanothermod.options.zoomAmount").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
-            MAX_FOV = new DoubleOption("justanothermod.options.maxFOV", 30.0D, 360.0D, 1.0F, gameOptions -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> new TranslatableText("justanothermod.options.maxFOV").append(": " + Math.round(option.get(gameOptions))));
-            SCAN_DISTANCE = new DoubleOption("justanothermod.options.scanDistance", 0.0D, 8.0D, 1.0F, gameOptions -> (double) MyGameOptions.scanDistance, (gameOptions, scanDistance) -> MyGameOptions.scanDistance = scanDistance.intValue(), (gameOptions, option) -> new TranslatableText("justanothermod.options.scanDistance").append(": " + option.get(gameOptions)));
-            SCAN_ALPHA_OFFSET = new DoubleOption("justanothermod.options.scanAlphaOffset", -1.0D, 1.0D, 0.1F, gameOptions -> MyGameOptions.scanAlphaOffset, (gameOptions, scanAlphaOffset) -> MyGameOptions.scanAlphaOffset = scanAlphaOffset, (gameOptions, option) -> new TranslatableText("justanothermod.options.scanAlphaOffset").append(": " + Math.round(option.get(gameOptions) * 10) / 10.0d));
-            SCAN_LINE_WIDTH = new DoubleOption("justanothermod.options.scanLineWidth", 0.0D, 5.0D, 0.5F, gameOptions -> MyGameOptions.scanLineWidth, (gameOptions, scanLineWidth) -> {
-                MyGameOptions.scanLineWidth = scanLineWidth;
-                MonkeyRenderType.refreshOverlayLines();
-            }, (gameOptions, option) -> new TranslatableText("justanothermod.options.scanLineWidth").append(": " + option.get(gameOptions) + "px"));
-
-        }
+        public static final CyclingOption<Boolean> ENHANCED_MOVEMENT = CyclingOption.create("justanothermod.options.enhancedMovement", gameOptions -> MyGameOptions.enhancedMovement, (gameOptions, option, enableEnhancedMovement) -> MyGameOptions.enhancedMovement = enableEnhancedMovement);
+        public static final CyclingOption<Boolean> FOG = CyclingOption.create("justanothermod.options.fog", gameOptions -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
+        public static final DoubleOption BRIGHTNESS = new DoubleOption("customGamma", 0.0D, 10.0D, 0.1F, gameOptions -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> new TranslatableText("options.gamma").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
+        public static final DoubleOption ZOOM_AMOUNT = new DoubleOption("justanothermod.options.zoomAmount", 1.0D, 10.0D, 0.1F, gameOptions -> MyGameOptions.zoomAmount, (gameOptions, zoomAmount) -> MyGameOptions.zoomAmount = zoomAmount, (gameOptions, option) -> new TranslatableText("justanothermod.options.zoomAmount").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
+        public static final DoubleOption MAX_FOV = new DoubleOption("justanothermod.options.maxFOV", 30.0D, 360.0D, 1.0F, gameOptions -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> new TranslatableText("justanothermod.options.maxFOV").append(": " + Math.round(option.get(gameOptions))));
+        public static final DoubleOption SCAN_DISTANCE = new DoubleOption("justanothermod.options.scanDistance", 0.0D, 8.0D, 1.0F, gameOptions -> (double) MyGameOptions.scanDistance, (gameOptions, scanDistance) -> MyGameOptions.scanDistance = scanDistance.intValue(), (gameOptions, option) -> new TranslatableText("justanothermod.options.scanDistance").append(": " + option.get(gameOptions)));
+        public static final DoubleOption SCAN_ALPHA_OFFSET = new DoubleOption("justanothermod.options.scanAlphaOffset", -1.0D, 1.0D, 0.1F, gameOptions -> MyGameOptions.scanAlphaOffset, (gameOptions, scanAlphaOffset) -> MyGameOptions.scanAlphaOffset = scanAlphaOffset, (gameOptions, option) -> new TranslatableText("justanothermod.options.scanAlphaOffset").append(": " + Math.round(option.get(gameOptions) * 10) / 10.0d));
+        public static final DoubleOption SCAN_LINE_WIDTH = new DoubleOption("justanothermod.options.scanLineWidth", 0.0D, 5.0D, 0.5F, gameOptions -> MyGameOptions.scanLineWidth, (gameOptions, scanLineWidth) -> {
+            MyGameOptions.scanLineWidth = scanLineWidth;
+            MonkeyRenderType.refreshOverlayLines();
+        }, (gameOptions, option) -> new TranslatableText("justanothermod.options.scanLineWidth").append(": " + option.get(gameOptions) + "px"));
+        public static final CyclingOption<NbtFilter> NBT_FILTER = CyclingOption.create("justanothermod.options.nbtFilter", NbtFilter.values(), nbtFilter -> new TranslatableText(nbtFilter.getTranslationKey()), gameOptions -> MyGameOptions.nbtFilter, (gameOptions, option, nbtFilter) -> {
+            MyGameOptions.nbtFilter = nbtFilter;
+        });
     }
 }
