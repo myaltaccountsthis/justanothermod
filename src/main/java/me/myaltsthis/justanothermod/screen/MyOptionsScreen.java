@@ -1,13 +1,12 @@
-package me.myaltsthis.justanothermod;
+package me.myaltsthis.justanothermod.screen;
 
-import net.minecraft.client.MinecraftClient;
+import me.myaltsthis.justanothermod.MyGameOptions;
+import me.myaltsthis.justanothermod.render.MonkeyRenderType;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.option.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
@@ -61,7 +60,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
 
     static {
-        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE};
+        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH};
     }
 
     public abstract static class MyOptions {
@@ -71,6 +70,8 @@ public class MyOptionsScreen extends GameOptionsScreen {
         public static final DoubleOption ZOOM_AMOUNT;
         public static final DoubleOption MAX_FOV;
         public static final DoubleOption SCAN_DISTANCE;
+        public static final DoubleOption SCAN_ALPHA_OFFSET;
+        public static final DoubleOption SCAN_LINE_WIDTH;
 
         static {
             ENHANCED_MOVEMENT = CyclingOption.create("justanothermod.options.enhancedMovement", gameOptions -> MyGameOptions.enhancedMovement, (gameOptions, option, enableEnhancedMovement) -> MyGameOptions.enhancedMovement = enableEnhancedMovement);
@@ -79,6 +80,12 @@ public class MyOptionsScreen extends GameOptionsScreen {
             ZOOM_AMOUNT = new DoubleOption("justanothermod.options.zoomAmount", 1.0D, 10.0D, 0.1F, gameOptions -> MyGameOptions.zoomAmount, (gameOptions, zoomAmount) -> MyGameOptions.zoomAmount = zoomAmount, (gameOptions, option) -> new TranslatableText("justanothermod.options.zoomAmount").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
             MAX_FOV = new DoubleOption("justanothermod.options.maxFOV", 30.0D, 360.0D, 1.0F, gameOptions -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> new TranslatableText("justanothermod.options.maxFOV").append(": " + Math.round(option.get(gameOptions))));
             SCAN_DISTANCE = new DoubleOption("justanothermod.options.scanDistance", 0.0D, 8.0D, 1.0F, gameOptions -> (double) MyGameOptions.scanDistance, (gameOptions, scanDistance) -> MyGameOptions.scanDistance = scanDistance.intValue(), (gameOptions, option) -> new TranslatableText("justanothermod.options.scanDistance").append(": " + option.get(gameOptions)));
+            SCAN_ALPHA_OFFSET = new DoubleOption("justanothermod.options.scanAlphaOffset", -1.0D, 1.0D, 0.1F, gameOptions -> MyGameOptions.scanAlphaOffset, (gameOptions, scanAlphaOffset) -> MyGameOptions.scanAlphaOffset = scanAlphaOffset, (gameOptions, option) -> new TranslatableText("justanothermod.options.scanAlphaOffset").append(": " + Math.round(option.get(gameOptions) * 10) / 10.0d));
+            SCAN_LINE_WIDTH = new DoubleOption("justanothermod.options.scanLineWidth", 0.0D, 5.0D, 0.5F, gameOptions -> MyGameOptions.scanLineWidth, (gameOptions, scanLineWidth) -> {
+                MyGameOptions.scanLineWidth = scanLineWidth;
+                MonkeyRenderType.refreshOverlayLines();
+            }, (gameOptions, option) -> new TranslatableText("justanothermod.options.scanLineWidth").append(": " + option.get(gameOptions) + "px"));
+
         }
     }
 }

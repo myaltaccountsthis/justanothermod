@@ -9,12 +9,15 @@
   "justanothermod.options.maxFOV": "Max FOV",
   "justanothermod.options.moreButtons": "More Buttons..",
   "justanothermod.options.setMaxFOV": "Auto Set Max FOV",
+  "justanothermod.options.scanAlphaOffset": "Scan alpha offset",
   "justanothermod.options.scanDistance": "Scan Distance",
+  "justanothermod.options.scanLineWidth": "Scan Line Width",
   "justanothermod.options.zoomAmount": "Zoom Amount",
 
   "justanothermod.key.zoom": "Zoom",
   "justanothermod.key.showTooltip": "Show Tooltip",
   "justanothermod.key.copyNbt": "Copy NBT",
   "justanothermod.key.refreshScan": "Scan Blocks",
-  "justanothermod.key.clearScan": "Clear Scan"
+  "justanothermod.key.clearScan": "Clear Scan",
+  "justanothermod.key.samePosScan": "Scan with same origin"
 }

@@ -1,7 +1,7 @@
 package me.myaltsthis.justanothermod.mixin;
 
 import me.myaltsthis.justanothermod.MyGameOptions;
-import me.myaltsthis.justanothermod.MyOptionsScreen;
+import me.myaltsthis.justanothermod.screen.MyOptionsScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;

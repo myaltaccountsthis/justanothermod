@@ -16,6 +16,9 @@ import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class MonkeyRenderer {
     public static void render(MatrixStack matrices, Camera camera) {
         if (!BlockScanner.blocksToRender.isEmpty()) {
@@ -33,16 +36,17 @@ public class MonkeyRenderer {
             matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
             RenderSystem.disableDepthTest();
 
-            for (BlockPos pos : BlockScanner.blocksToRender) {
+            for (BlockPos pos : (ArrayList<BlockPos>) BlockScanner.blocksToRender.clone()) {
                 double distance = Math.sqrt(pos.getSquaredDistance(player.getBlockPos()));
                 double ratio = distance / 128;
                 if (ratio > 1)
                     continue;
-                float alpha = Math.max((float) (
-                    (1 - ratio) * .9 - .3
-                ), .1f);
+                float alpha = Math.min(Math.max((float) (
+                    (1 - ratio) * .9 + MyGameOptions.scanAlphaOffset
+                ), .1f), 1f);
                 WorldRenderer.drawBox(matrices, builder, new Box(pos), 0f, 0f, 1f, alpha);
             }
+            WorldRenderer.drawBox(matrices, builder, new Box(new BlockPos(BlockScanner.scanOrigin)), 0f, 1f, 0f, 1);
 
             matrices.pop();
             entityVertexConsumers.draw(MonkeyRenderType.OVERLAY_LINES);

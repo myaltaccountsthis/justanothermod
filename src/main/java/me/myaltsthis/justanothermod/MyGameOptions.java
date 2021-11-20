@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.io.Files;
+import me.myaltsthis.justanothermod.render.MonkeyRenderType;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
@@ -34,6 +35,8 @@ public abstract class MyGameOptions {
     public static double zoomAmount = 4.0D;
     public static double maxFOV = 110.0F;
     public static int scanDistance = 4;
+    public static double scanAlphaOffset = -.3;
+    public static double scanLineWidth = 3.0D;
 
     public static final KeyBinding keyZoom;
     public static final KeyBinding keyShowTooltip;
@@ -45,6 +48,8 @@ public abstract class MyGameOptions {
         zoomAmount = visitor.visitDouble("zoomAmount", zoomAmount);
         maxFOV = visitor.visitDouble("maxFOV", maxFOV);
         scanDistance = visitor.visitInt("scanDistance", scanDistance);
+        scanAlphaOffset = visitor.visitDouble("scanAlphaOffset", scanAlphaOffset);
+        scanLineWidth = visitor.visitDouble("scanLineWidth", scanLineWidth);
     }
 
     public static void load() {
