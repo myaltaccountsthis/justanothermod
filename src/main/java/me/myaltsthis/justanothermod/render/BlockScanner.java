@@ -53,23 +53,27 @@ public class BlockScanner implements Runnable {
                 for (BlockPos pos : BlockPos.iterate(chunkPos.getStartX(), 0, chunkPos.getStartZ(), chunkPos.getEndX(), 255, chunkPos.getEndZ())) {
                     if (blocksToRender.size() == limit)
                         break;
-                    pos = pos.toImmutable();
-                    checkBlock(pos);
+                    checkBlock(pos, true);
                 }
             }
         }
         JustAnotherModClient.LOGGER.info("Scanned and found " + blocksToRender.size() + " blocks");
     }
-    public static void checkBlock(BlockPos pos) {
+    public static void checkBlock(BlockPos pos, boolean isScanning) {
         MinecraftClient instance = MinecraftClient.getInstance();
         final World world = instance.world;
         final PlayerEntity player = instance.player;
         if (world == null || player == null)
             return;
+        pos = pos.toImmutable();
         if (pos.getSquaredDistance(scanOrigin) < 128 * 128 &&
                 world.isSpaceEmpty(entityType.createSimpleBoundingBox((double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5)) &&
                 SpawnHelper.canSpawn(SpawnRestriction.getLocation(entityType), world, pos, entityType)) {
-            blocksToRender.add(pos);
-        } else blocksToRender.remove(pos);
+            if (isScanning || !blocksToRender.contains(pos))
+                blocksToRender.add(pos);
+        } else if (!isScanning) {
+            System.out.println("removing " + pos);
+            blocksToRender.remove(pos);
+        }
     }
 }
