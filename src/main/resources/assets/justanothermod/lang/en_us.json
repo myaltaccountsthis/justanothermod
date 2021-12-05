@@ -19,6 +19,10 @@
   "justanothermod.options.nbtFilter.detailed": "Detailed Nbt",
   "justanothermod.options.nbtFilter.basic": "Basic Nbt",
 
+  "justanothermod.options.scanMode": "Scan Mode",
+  "justanothermod.options.scanMode.mobSpawn": "Mob Spawns",
+  "justanothermod.options.scanMode.diamonds": "Diamonds",
+
   "justanothermod.key.zoom": "Zoom",
   "justanothermod.key.showTooltip": "Show Tooltip",
   "justanothermod.key.copyNbt": "Copy NBT",

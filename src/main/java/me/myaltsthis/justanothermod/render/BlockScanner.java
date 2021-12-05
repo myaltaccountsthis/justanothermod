@@ -2,6 +2,8 @@ package me.myaltsthis.justanothermod.render;
 
 import me.myaltsthis.justanothermod.JustAnotherModClient;
 import me.myaltsthis.justanothermod.MyGameOptions;
+import me.myaltsthis.justanothermod.enums.ScanMode;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
@@ -11,6 +13,7 @@ import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkManager;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
@@ -40,8 +43,8 @@ public class BlockScanner implements Runnable {
         if (reposition || scanOrigin == null)
             scanOrigin = player.getBlockPos();
         BlockPos blockPos = scanOrigin;
-        int cX = blockPos.getX() / 16;
-        int cZ = blockPos.getZ() / 16;
+        int cX = (int) Math.floor(blockPos.getX() / 16.0);
+        int cZ = (int) Math.floor(blockPos.getZ() / 16.0);
 
         blocksToRender.clear();
         for (int i = cX - range; i <= cX + range; i++) {
@@ -50,7 +53,7 @@ public class BlockScanner implements Runnable {
                 if (chunk == null)
                     continue;
                 ChunkPos chunkPos = chunk.getPos();
-                for (BlockPos pos : BlockPos.iterate(chunkPos.getStartX(), 0, chunkPos.getStartZ(), chunkPos.getEndX(), 255, chunkPos.getEndZ())) {
+                for (BlockPos pos : BlockPos.iterate(chunkPos.getStartX(), -64, chunkPos.getStartZ(), chunkPos.getEndX(), 319, chunkPos.getEndZ())) {
                     if (blocksToRender.size() == limit)
                         break;
                     checkBlock(pos, true);
@@ -59,6 +62,17 @@ public class BlockScanner implements Runnable {
         }
         JustAnotherModClient.LOGGER.info("Scanned and found " + blocksToRender.size() + " blocks");
     }
+
+    private static boolean canMobSpawn(BlockPos pos, World world) {
+        return pos.getSquaredDistance(scanOrigin) < 128 * 128 &&
+                world.isSpaceEmpty(entityType.createSimpleBoundingBox((double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5)) &&
+                SpawnHelper.canSpawn(SpawnRestriction.getLocation(entityType), world, pos, entityType);
+    }
+    private static boolean isDiamond(BlockPos pos, World world) {
+        String s = world.getBlockState(pos).getBlock().getTranslationKey();
+        return s.equals(Blocks.DIAMOND_ORE.getTranslationKey()) || s.equals(Blocks.DEEPSLATE_DIAMOND_ORE.getTranslationKey());
+    }
+
     public static void checkBlock(BlockPos pos, boolean isScanning) {
         MinecraftClient instance = MinecraftClient.getInstance();
         final World world = instance.world;
@@ -66,14 +80,23 @@ public class BlockScanner implements Runnable {
         if (world == null || player == null)
             return;
         pos = pos.toImmutable();
-        if (pos.getSquaredDistance(scanOrigin) < 128 * 128 &&
-                world.isSpaceEmpty(entityType.createSimpleBoundingBox((double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5)) &&
-                SpawnHelper.canSpawn(SpawnRestriction.getLocation(entityType), world, pos, entityType)) {
+
+        boolean success = false;
+        ScanMode scanMode = MyGameOptions.scanMode;
+        if (scanMode == ScanMode.MOB_SPAWN)
+            success = canMobSpawn(pos, world);
+        else if (scanMode == ScanMode.DIAMONDS) {
+            success = isDiamond(pos, world);
+            if (success)
+                System.out.println(pos);
+        }
+        if (success) {
             if (isScanning || !blocksToRender.contains(pos))
                 blocksToRender.add(pos);
         } else if (!isScanning) {
-            System.out.println("removing " + pos);
-            blocksToRender.remove(pos);
+            int i = blocksToRender.indexOf(pos);
+            if (i >= 0)
+                blocksToRender.remove(i);
         }
     }
 }

@@ -2,6 +2,7 @@ package me.myaltsthis.justanothermod.screen;
 
 import me.myaltsthis.justanothermod.MyGameOptions;
 import me.myaltsthis.justanothermod.enums.NbtFilter;
+import me.myaltsthis.justanothermod.enums.ScanMode;
 import me.myaltsthis.justanothermod.render.MonkeyRenderType;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
@@ -23,6 +24,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
         super(screen, gameOptions, new TranslatableText("justanothermod.optionsScreen"));
     }
 
+    @Override
     protected void init() {
         this.list = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
         this.list.setRenderBackground(false);
@@ -61,10 +63,10 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
 
     static {
-        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH, MyOptions.NBT_FILTER};
+        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH, MyOptions.SCAN_MODE, MyOptions.NBT_FILTER};
     }
 
-    public abstract static class MyOptions {
+    private static class MyOptions {
         public static final CyclingOption<Boolean> ENHANCED_MOVEMENT = CyclingOption.create("justanothermod.options.enhancedMovement", gameOptions -> MyGameOptions.enhancedMovement, (gameOptions, option, enableEnhancedMovement) -> MyGameOptions.enhancedMovement = enableEnhancedMovement);
         public static final CyclingOption<Boolean> FOG = CyclingOption.create("justanothermod.options.fog", gameOptions -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
         public static final DoubleOption BRIGHTNESS = new DoubleOption("customGamma", 0.0D, 10.0D, 0.1F, gameOptions -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> new TranslatableText("options.gamma").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
@@ -76,8 +78,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
             MyGameOptions.scanLineWidth = scanLineWidth;
             MonkeyRenderType.refreshOverlayLines();
         }, (gameOptions, option) -> new TranslatableText("justanothermod.options.scanLineWidth").append(": " + option.get(gameOptions) + "px"));
-        public static final CyclingOption<NbtFilter> NBT_FILTER = CyclingOption.create("justanothermod.options.nbtFilter", NbtFilter.values(), nbtFilter -> new TranslatableText(nbtFilter.getTranslationKey()), gameOptions -> MyGameOptions.nbtFilter, (gameOptions, option, nbtFilter) -> {
-            MyGameOptions.nbtFilter = nbtFilter;
-        });
+        public static final CyclingOption<ScanMode> SCAN_MODE  = CyclingOption.create("justanothermod.options.scanMode", ScanMode.values(), scanMode -> new TranslatableText(scanMode.getTranslationKey()), gameOptions -> MyGameOptions.scanMode, (gameOptions, option, scanMode) -> MyGameOptions.scanMode = scanMode);
+        public static final CyclingOption<NbtFilter> NBT_FILTER = CyclingOption.create("justanothermod.options.nbtFilter", NbtFilter.values(), nbtFilter -> new TranslatableText(nbtFilter.getTranslationKey()), gameOptions -> MyGameOptions.nbtFilter, (gameOptions, option, nbtFilter) -> MyGameOptions.nbtFilter = nbtFilter);
     }
 }

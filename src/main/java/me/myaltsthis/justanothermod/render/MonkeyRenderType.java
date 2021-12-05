@@ -18,20 +18,20 @@ public class MonkeyRenderType extends RenderLayer {
     public static RenderLayer refreshOverlayLines() {
         return OVERLAY_LINES = of(
                 "overlay_lines",
-                VertexFormats.POSITION_COLOR,
+                VertexFormats.LINES,
                 VertexFormat.DrawMode.LINES,
                 256,
                 RenderLayer.MultiPhaseParameters.builder()
+                        .shader(Shader.LINES_SHADER)
                         .lineWidth(new LineWidth(OptionalDouble.of(MyGameOptions.scanLineWidth)))
                         .layering(VIEW_OFFSET_Z_LAYERING)
                         .transparency(TRANSLUCENT_TRANSPARENCY)
                         .texture(NO_TEXTURE)
                         .depthTest(MonkeyRenderType.noDepth)
-                        .shader(Shader.LINES_SHADER)
                         .depthTest(ALWAYS_DEPTH_TEST)
                         .cull(DISABLE_CULLING)
                         .lightmap(DISABLE_LIGHTMAP)
-                        .writeMaskState(COLOR_MASK)
+                        .writeMaskState(RenderPhase.ALL_MASK)
                         .build(false));
     }
 

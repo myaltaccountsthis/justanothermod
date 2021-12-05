@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
-    @Shadow public float flyingSpeed;
 
     @ModifyVariable(method = "travel", at = @At("STORE"), ordinal = 2)
     private float modifyWater(float h) {

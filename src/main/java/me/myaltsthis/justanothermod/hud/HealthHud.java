@@ -12,6 +12,7 @@ public class HealthHud extends MovableHud {
     private final MinecraftClient client;
 
     public HealthHud(MinecraftClient minecraftClient) {
+        super(0, 0, 26, 9);
         this.client = minecraftClient;
     }
 

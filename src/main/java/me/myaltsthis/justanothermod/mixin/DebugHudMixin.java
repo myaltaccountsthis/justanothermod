@@ -40,7 +40,7 @@ public class DebugHudMixin {
                 if (blockEntity != null) {
                     toAdd.add("Block NBT");
                     if (pressed) {
-                        NbtCompound nbt = blockEntity.writeNbt(new NbtCompound());
+                        NbtCompound nbt = blockEntity.createNbt();
                         nbt.remove("id");
                         nbt.remove("x");
                         nbt.remove("y");

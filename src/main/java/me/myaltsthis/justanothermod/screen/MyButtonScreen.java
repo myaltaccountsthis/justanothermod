@@ -17,6 +17,7 @@ public class MyButtonScreen extends GameOptionsScreen {
         super(screen, gameOptions, new TranslatableText("justanothermod.buttonScreen"));
     }
 
+    @Override
     protected void init() {
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6, 150, 20, new TranslatableText("justanothermod.options.setMaxFOV"), (button) -> MyGameOptions.maxFOV = MinecraftClient.getInstance().options.fov * 1.15));
         this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6, 150, 20, new TranslatableText("justanothermod.key.refreshScan"), (button) -> Util.getMainWorkerExecutor().execute(new BlockScanner(true))));

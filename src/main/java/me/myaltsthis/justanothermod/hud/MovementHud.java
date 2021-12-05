@@ -13,6 +13,7 @@ public class MovementHud extends MovableHud {
     private final MinecraftClient client;
 
     public MovementHud(MinecraftClient minecraftClient) {
+        super(0, 0, 50, 9);
         this.client = minecraftClient;
     }
 

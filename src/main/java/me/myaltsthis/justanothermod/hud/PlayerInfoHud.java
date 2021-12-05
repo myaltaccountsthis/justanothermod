@@ -23,12 +23,10 @@ public class PlayerInfoHud extends DrawableHelper {
     }
 
     public void render(MatrixStack matrices, float tickDelta) {
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
         healthHud.render(matrices, client.player);
 
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         movementHud.render(matrices, client.player);
     }
 }
