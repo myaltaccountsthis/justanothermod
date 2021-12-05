@@ -5,10 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractClientPlayerEntityMixin",
-    "ClientLoginNetworkAddonMixin",
     "ClientPlayerEntityMixin",
     "DebugHudMixin",
-    "EntityMixin",
     "FogMixin",
     "GameRendererMixin",
     "InGameHudMixin",

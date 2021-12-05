@@ -32,6 +32,8 @@ public class JustAnotherModClient implements ClientModInitializer {
     }};
 
     public static Logger LOGGER = LogManager.getLogger("JustAnotherMod");
+    public static boolean jumpNextTick = false;
+
     @Override
     public void onInitializeClient() {
         LOGGER.info("Checking options: " + MyGameOptions.zoomAmount);

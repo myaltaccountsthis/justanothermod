@@ -13,6 +13,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.tree.AnnotationNode;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
@@ -26,6 +27,8 @@ public class ClientPlayerEntityMixin {
     private static final Logger LOGGER = JustAnotherModClient.LOGGER;
 
     @Shadow public Input input;
+
+    @Shadow @Final public ClientPlayNetworkHandler networkHandler;
 
     private boolean isEnabled() {
         return MyGameOptions.enhancedMovement;
@@ -62,18 +65,14 @@ public class ClientPlayerEntityMixin {
         }
     }
 
-    //@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isClimbing()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void autoElytra(CallbackInfo ci, boolean bl, boolean bl8) {
-        boolean jumping = input.jumping;
-        boolean flying = ((ClientPlayerEntity) (Object) this).getAbilities().flying;
-        boolean hasVehicle = ((ClientPlayerEntity) (Object) this).hasVehicle();
-        boolean isClimbing = ((ClientPlayerEntity) (Object) this).isClimbing();
-        ItemStack itemStack = ((ClientPlayerEntity) (Object) this).getEquippedStack(EquipmentSlot.CHEST);
-        boolean usingElytra = itemStack.isOf(Items.ELYTRA);
-        boolean checkFallFlying = ((ClientPlayerEntity) (Object) this).checkFallFlying();
-        LOGGER.info("jumping: " + jumping + ", flying: " + flying + ", hasVehicle: " + hasVehicle + ", isClimbing: " + isClimbing + ", usingElytra: " + usingElytra + ", checkFallFlying: " + checkFallFlying);
-        if (jumping && !bl8 && !bl && !flying && !hasVehicle && !isClimbing && usingElytra && ElytraItem.isUsable(itemStack) && checkFallFlying) {
-            LOGGER.info("can use");
+    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isFallFlying()Z", shift = At.Shift.AFTER))
+    private void forceFly(CallbackInfo ci) {
+        if (MyGameOptions.allowElytraBounce) {
+            ClientPlayerEntity clientPlayerEntity = (ClientPlayerEntity) (Object) this;
+            if (!clientPlayerEntity.isFallFlying() && JustAnotherModClient.jumpNextTick && clientPlayerEntity.checkFallFlying()) {
+                JustAnotherModClient.jumpNextTick = false;
+                networkHandler.sendPacket(new ClientCommandC2SPacket(clientPlayerEntity, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
+            }
         }
     }
 }

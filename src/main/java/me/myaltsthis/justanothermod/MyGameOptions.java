@@ -33,6 +33,7 @@ public abstract class MyGameOptions {
     
     private static final File optionsFile;
     public static boolean enhancedMovement = false;
+    public static boolean allowElytraBounce = true;
     public static boolean fog = false;
     public static double zoomAmount = 4.0D;
     public static double maxFOV = 110.0F;
@@ -48,6 +49,7 @@ public abstract class MyGameOptions {
     
     private static void accept(MyGameOptions.Visitor visitor) {
         enhancedMovement = visitor.visitBoolean("enhancedMovement", enhancedMovement);
+        allowElytraBounce = visitor.visitBoolean("elytraBounce", allowElytraBounce);
         fog = visitor.visitBoolean("fog", fog);
         zoomAmount = visitor.visitDouble("zoomAmount", zoomAmount);
         maxFOV = visitor.visitDouble("maxFOV", maxFOV);

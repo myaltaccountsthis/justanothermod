@@ -63,11 +63,12 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
 
     static {
-        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH, MyOptions.SCAN_MODE, MyOptions.NBT_FILTER};
+        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.ALLOW_ELYTRA_BOUNCE, MyOptions.FOG, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH, MyOptions.SCAN_MODE, MyOptions.NBT_FILTER};
     }
 
     private static class MyOptions {
         public static final CyclingOption<Boolean> ENHANCED_MOVEMENT = CyclingOption.create("justanothermod.options.enhancedMovement", gameOptions -> MyGameOptions.enhancedMovement, (gameOptions, option, enableEnhancedMovement) -> MyGameOptions.enhancedMovement = enableEnhancedMovement);
+        public static final CyclingOption<Boolean> ALLOW_ELYTRA_BOUNCE = CyclingOption.create("justanothermod.options.elytraBounce", gameOptions -> MyGameOptions.allowElytraBounce, (gameOptions, option, enableElytraBounce) -> MyGameOptions.allowElytraBounce = enableElytraBounce);
         public static final CyclingOption<Boolean> FOG = CyclingOption.create("justanothermod.options.fog", gameOptions -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
         public static final DoubleOption BRIGHTNESS = new DoubleOption("customGamma", 0.0D, 10.0D, 0.1F, gameOptions -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> new TranslatableText("options.gamma").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
         public static final DoubleOption ZOOM_AMOUNT = new DoubleOption("justanothermod.options.zoomAmount", 1.0D, 10.0D, 0.1F, gameOptions -> MyGameOptions.zoomAmount, (gameOptions, zoomAmount) -> MyGameOptions.zoomAmount = zoomAmount, (gameOptions, option) -> new TranslatableText("justanothermod.options.zoomAmount").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));

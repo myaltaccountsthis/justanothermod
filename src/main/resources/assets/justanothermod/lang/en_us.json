@@ -5,6 +5,7 @@
   "justanothermod.tooltipDefault": "[(key) for NBT]",
 
   "justanothermod.options.enhancedMovement": "Monkey Mode",
+  "justanothermod.options.elytraBounce": "Allow Elytra Bounce",
   "justanothermod.options.fog": "Disable Fog",
   "justanothermod.options.maxFOV": "Max FOV",
   "justanothermod.options.moreButtons": "More Buttons..",
