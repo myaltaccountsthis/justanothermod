@@ -53,11 +53,11 @@ public class JustAnotherModClient implements ClientModInitializer {
         Entity entity = MinecraftClient.getInstance().targetedEntity;
         if (entity != null) {
             NbtCompound nbt = entity.writeNbt(new NbtCompound());
-            // TODO add CyclingOption later
             List<String> filter = keyFilter.get(filterType);
             if (!filter.isEmpty()) {
                 for (String key : nbt.getKeys()) {
                     if (!filter.contains(key)) {
+                        // concurrentmodificationexception?
                         nbt.remove(key);
                     }
                 }
