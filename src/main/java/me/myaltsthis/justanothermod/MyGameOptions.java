@@ -41,6 +41,7 @@ public abstract class MyGameOptions {
     public static int scanDistance = 4;
     public static double scanAlphaOffset = -.3;
     public static double scanLineWidth = 3.0D;
+    public static String blockToScan = "";
     public static NbtFilter nbtFilter = NbtFilter.BASIC;
     public static ScanMode scanMode = ScanMode.MOB_SPAWN;
 
@@ -58,6 +59,7 @@ public abstract class MyGameOptions {
         scanDistance = visitor.visitInt("scanDistance", scanDistance);
         scanAlphaOffset = visitor.visitDouble("scanAlphaOffset", scanAlphaOffset);
         scanLineWidth = visitor.visitDouble("scanLineWidth", scanLineWidth);
+        blockToScan = visitor.visitString("blockToScan", blockToScan);
         nbtFilter = visitor.visitObject("nbtFilter", nbtFilter, NbtFilter::byId, NbtFilter::getId);
         scanMode = visitor.visitObject("scanMode", scanMode, ScanMode::byId, ScanMode::getId);
     }

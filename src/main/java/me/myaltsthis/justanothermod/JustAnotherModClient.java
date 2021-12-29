@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mojang.brigadier.Command;
 import me.myaltsthis.justanothermod.enums.NbtFilter;
 import me.myaltsthis.justanothermod.render.BlockScanner;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.Entity;
@@ -55,12 +57,14 @@ public class JustAnotherModClient implements ClientModInitializer {
             NbtCompound nbt = entity.writeNbt(new NbtCompound());
             List<String> filter = keyFilter.get(filterType);
             if (!filter.isEmpty()) {
+                ArrayList<String> keysToRemove = new ArrayList<>();
                 for (String key : nbt.getKeys()) {
                     if (!filter.contains(key)) {
-                        // concurrentmodificationexception?
-                        nbt.remove(key);
+                        keysToRemove.add(key);
                     }
                 }
+                for (String key : keysToRemove)
+                    nbt.remove(key);
             }
             return nbt;
         }

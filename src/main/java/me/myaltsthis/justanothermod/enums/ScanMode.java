@@ -7,7 +7,8 @@ import java.util.Comparator;
 
 public enum ScanMode {
     MOB_SPAWN(0, "justanothermod.options.scanMode.mobSpawn"),
-    DIAMONDS(1, "justanothermod.options.scanMode.diamonds");
+    DIAMONDS(1, "justanothermod.options.scanMode.diamonds"),
+    TEXT(2, "justanothermod.options.scanMode.text");
 
     private static final ScanMode[] VALUES;
     private final int id;

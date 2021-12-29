@@ -72,6 +72,9 @@ public class BlockScanner implements Runnable {
         String s = world.getBlockState(pos).getBlock().getTranslationKey();
         return s.equals(Blocks.DIAMOND_ORE.getTranslationKey()) || s.equals(Blocks.DEEPSLATE_DIAMOND_ORE.getTranslationKey());
     }
+    private static boolean matchesText(BlockPos pos, World world) {
+        return world.getBlockState(pos).getBlock().getTranslationKey().toLowerCase().contains(MyGameOptions.blockToScan.toLowerCase());
+    }
 
     public static void checkBlock(BlockPos pos, boolean isScanning) {
         MinecraftClient instance = MinecraftClient.getInstance();
@@ -87,8 +90,9 @@ public class BlockScanner implements Runnable {
             success = canMobSpawn(pos, world);
         else if (scanMode == ScanMode.DIAMONDS) {
             success = isDiamond(pos, world);
-            if (success)
-                System.out.println(pos);
+        }
+        else if (scanMode == ScanMode.TEXT) {
+            success = matchesText(pos, world);
         }
         if (success) {
             if (isScanning || !blocksToRender.contains(pos))

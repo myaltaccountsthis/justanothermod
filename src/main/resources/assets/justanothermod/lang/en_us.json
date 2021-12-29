@@ -14,6 +14,7 @@
   "justanothermod.options.scanAlphaOffset": "Scan alpha offset",
   "justanothermod.options.scanDistance": "Scan Distance",
   "justanothermod.options.scanLineWidth": "Scan Line Width",
+  "justanothermod.options.scanBlockText": "Block to Scan",
   "justanothermod.options.zoomAmount": "Zoom Amount",
 
   "justanothermod.options.nbtFilter": "Nbt Filter",
@@ -24,6 +25,7 @@
   "justanothermod.options.scanMode": "Scan Mode",
   "justanothermod.options.scanMode.mobSpawn": "Mob Spawns",
   "justanothermod.options.scanMode.diamonds": "Diamonds",
+  "justanothermod.options.scanMode.text": "From Text",
 
   "justanothermod.key.zoom": "Zoom",
   "justanothermod.key.showTooltip": "Show Tooltip",

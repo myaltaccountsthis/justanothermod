@@ -27,11 +27,11 @@ public abstract class FishingBobberEntityMixin {
         if (MyGameOptions.autoFish) {
             PlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null) {
-                if (player.equals(this.getPlayerOwner()) && this.caughtFish && this.hookCountdown > 0) {
+                if (player.equals(this.getPlayerOwner()) && this.caughtFish && this.hookCountdown == 0) {
                     if (MinecraftClient.getInstance().interactionManager != null) {
                         // catch and get
                         for (int i = 0; i < 2; i++)
-                            MinecraftClient.getInstance().interactionManager.interactItem(player, MinecraftClient.getInstance().world, player.getActiveHand());
+                            MinecraftClient.getInstance().doItemUse();
                     }
                 }
             }
