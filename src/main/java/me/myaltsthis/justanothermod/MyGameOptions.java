@@ -48,6 +48,10 @@ public abstract class MyGameOptions {
     public static final KeyBinding keyZoom;
     public static final KeyBinding keyShowTooltip;
     public static final KeyBinding keyCopyNbt;
+
+    public static final KeyBinding keyRefreshScan;
+    public static final KeyBinding keyClearScan;
+    public static final KeyBinding keySamePosScan;
     
     private static void accept(MyGameOptions.Visitor visitor) {
         enhancedMovement = visitor.visitBoolean("enhancedMovement", enhancedMovement);
@@ -302,6 +306,10 @@ public abstract class MyGameOptions {
         keyZoom = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "key.categories.misc"));
         keyShowTooltip = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.showTooltip", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, "key.categories.misc"));
         keyCopyNbt = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.copyNbt", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_CONTROL, "key.categories.misc"));
+
+        keyRefreshScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.refreshScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_BACKSLASH, "key.categories.misc"));
+        keyClearScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.clearScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_BRACKET, "key.categories.misc"));
+        keySamePosScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.samePosScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "key.categories.misc"));
 
         MyGameOptions.load();
     }
