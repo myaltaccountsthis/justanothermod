@@ -20,7 +20,7 @@ import java.util.List;
 public class MyOptionsScreen extends GameOptionsScreen {
     private static final Option[] OPTIONS;
     private ButtonListWidget list;
-    private TextFieldWidget scanBlockTextField;
+    protected TextFieldWidget scanBlockTextField;
 
     public MyOptionsScreen(Screen screen, GameOptions gameOptions) {
         super(screen, gameOptions, new TranslatableText("justanothermod.optionsScreen"));
@@ -90,7 +90,7 @@ public class MyOptionsScreen extends GameOptionsScreen {
 
 
     static {
-        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.ALLOW_ELYTRA_BOUNCE, MyOptions.FOG, MyOptions.AUTO_FISH, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH, MyOptions.SCAN_MODE, MyOptions.NBT_FILTER};
+        OPTIONS = new Option[] {MyOptions.ENHANCED_MOVEMENT, MyOptions.ALLOW_ELYTRA_BOUNCE, MyOptions.FOG, MyOptions.AUTO_FISH, MyOptions.TRANSPARENT_BACKGROUND, MyOptions.SHOW_HUD, MyOptions.BRIGHTNESS, MyOptions.ZOOM_AMOUNT, MyOptions.MAX_FOV, MyOptions.SCAN_DISTANCE, MyOptions.SCAN_ALPHA_OFFSET, MyOptions.SCAN_LINE_WIDTH, MyOptions.SCAN_MODE, MyOptions.NBT_FILTER};
     }
 
     private static class MyOptions {
@@ -98,6 +98,8 @@ public class MyOptionsScreen extends GameOptionsScreen {
         public static final CyclingOption<Boolean> ALLOW_ELYTRA_BOUNCE = CyclingOption.create("justanothermod.options.elytraBounce", gameOptions -> MyGameOptions.allowElytraBounce, (gameOptions, option, enableElytraBounce) -> MyGameOptions.allowElytraBounce = enableElytraBounce);
         public static final CyclingOption<Boolean> FOG = CyclingOption.create("justanothermod.options.fog", gameOptions -> MyGameOptions.fog, (gameOptions, option, enableFog) -> MyGameOptions.fog = enableFog);
         public static final CyclingOption<Boolean> AUTO_FISH = CyclingOption.create("justanothermod.options.autoFish", gameOptions -> MyGameOptions.autoFish, (gameOptions, option, enableAutoFish) -> MyGameOptions.autoFish = enableAutoFish);
+        public static final CyclingOption<Boolean> TRANSPARENT_BACKGROUND = CyclingOption.create("justanothermod.options.transparentBackground", gameOptions -> MyGameOptions.transparentBackground, (gameOptions, option, enableTransparentBackground) -> MyGameOptions.transparentBackground = enableTransparentBackground);
+        public static final CyclingOption<Boolean> SHOW_HUD = CyclingOption.create("justanothermod.options.showHud", gameOptions -> MyGameOptions.showHud, (gameOptions, option, enableShowHud) -> MyGameOptions.showHud = enableShowHud);
         public static final DoubleOption BRIGHTNESS = new DoubleOption("customGamma", 0.0D, 10.0D, 0.1F, gameOptions -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> new TranslatableText("options.gamma").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
         public static final DoubleOption ZOOM_AMOUNT = new DoubleOption("justanothermod.options.zoomAmount", 1.0D, 10.0D, 0.1F, gameOptions -> MyGameOptions.zoomAmount, (gameOptions, zoomAmount) -> MyGameOptions.zoomAmount = zoomAmount, (gameOptions, option) -> new TranslatableText("justanothermod.options.zoomAmount").append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
         public static final DoubleOption MAX_FOV = new DoubleOption("justanothermod.options.maxFOV", 30.0D, 360.0D, 1.0F, gameOptions -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> new TranslatableText("justanothermod.options.maxFOV").append(": " + Math.round(option.get(gameOptions))));
@@ -107,7 +109,9 @@ public class MyOptionsScreen extends GameOptionsScreen {
             MyGameOptions.scanLineWidth = scanLineWidth;
             MonkeyRenderType.refreshOverlayLines();
         }, (gameOptions, option) -> new TranslatableText("justanothermod.options.scanLineWidth").append(": " + option.get(gameOptions) + "px"));
-        public static final CyclingOption<ScanMode> SCAN_MODE  = CyclingOption.create("justanothermod.options.scanMode", ScanMode.values(), scanMode -> new TranslatableText(scanMode.getTranslationKey()), gameOptions -> MyGameOptions.scanMode, (gameOptions, option, scanMode) -> MyGameOptions.scanMode = scanMode);
+        public static final CyclingOption<ScanMode> SCAN_MODE  = CyclingOption.create("justanothermod.options.scanMode", ScanMode.values(), scanMode -> new TranslatableText(scanMode.getTranslationKey()), gameOptions -> MyGameOptions.scanMode, (gameOptions, option, scanMode) -> {
+            MyGameOptions.scanMode = scanMode;
+        });
         public static final CyclingOption<NbtFilter> NBT_FILTER = CyclingOption.create("justanothermod.options.nbtFilter", NbtFilter.values(), nbtFilter -> new TranslatableText(nbtFilter.getTranslationKey()), gameOptions -> MyGameOptions.nbtFilter, (gameOptions, option, nbtFilter) -> MyGameOptions.nbtFilter = nbtFilter);
     }
 }

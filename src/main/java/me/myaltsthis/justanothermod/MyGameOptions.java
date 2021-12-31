@@ -36,6 +36,8 @@ public abstract class MyGameOptions {
     public static boolean allowElytraBounce = true;
     public static boolean fog = false;
     public static boolean autoFish = false;
+    public static boolean transparentBackground = false;
+    public static boolean showHud = false;
     public static double zoomAmount = 4.0D;
     public static double maxFOV = 110.0F;
     public static int scanDistance = 4;
@@ -58,6 +60,8 @@ public abstract class MyGameOptions {
         allowElytraBounce = visitor.visitBoolean("elytraBounce", allowElytraBounce);
         fog = visitor.visitBoolean("fog", fog);
         autoFish = visitor.visitBoolean("autoFish", autoFish);
+        transparentBackground = visitor.visitBoolean("transparentBackground", transparentBackground);
+        showHud = visitor.visitBoolean("showHud", showHud);
         zoomAmount = visitor.visitDouble("zoomAmount", zoomAmount);
         maxFOV = visitor.visitDouble("maxFOV", maxFOV);
         scanDistance = visitor.visitInt("scanDistance", scanDistance);

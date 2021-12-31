@@ -26,7 +26,6 @@ public class PlayerInfoHud extends DrawableHelper {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
         healthHud.render(matrices, client.player);
-
         movementHud.render(matrices, client.player);
     }
 }

@@ -1,5 +1,6 @@
 package me.myaltsthis.justanothermod.mixin;
 
+import me.myaltsthis.justanothermod.MyGameOptions;
 import me.myaltsthis.justanothermod.hud.PlayerInfoHud;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
@@ -13,6 +14,6 @@ public class InGameHudMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderMountHealth(Lnet/minecraft/client/util/math/MatrixStack;)V"))
     private void injectHud(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-        PlayerInfoHud.getInstance().render(matrices, tickDelta);
+        if (MyGameOptions.showHud) PlayerInfoHud.getInstance().render(matrices, tickDelta);
     }
 }
