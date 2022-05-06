@@ -8,6 +8,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.*;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.World;
@@ -61,11 +63,11 @@ public class BlockScanner implements Runnable {
             }
         }
         JustAnotherModClient.LOGGER.info("Scanned and found " + blocksToRender.size() + " blocks");
+        player.sendSystemMessage(new LiteralText("Scanned and found " + blocksToRender.size() + " blocks").formatted(Formatting.GREEN), null);
     }
 
     private static boolean canMobSpawn(BlockPos pos, World world) {
-        return pos.getSquaredDistance(scanOrigin) < 128 * 128 &&
-                world.isSpaceEmpty(entityType.createSimpleBoundingBox((double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5)) &&
+        return world.isSpaceEmpty(entityType.createSimpleBoundingBox((double) pos.getX() + 0.5, pos.getY(), (double) pos.getZ() + 0.5)) &&
                 SpawnHelper.canSpawn(SpawnRestriction.getLocation(entityType), world, pos, entityType);
     }
     private static boolean isDiamond(BlockPos pos, World world) {
