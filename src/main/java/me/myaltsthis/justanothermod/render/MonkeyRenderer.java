@@ -40,9 +40,7 @@ public class MonkeyRenderer {
 
             for (BlockPos pos : (ArrayList<BlockPos>) BlockScanner.blocksToRender.clone()) {
                 double distance = Math.sqrt(pos.getSquaredDistance(player.getBlockPos()));
-                double ratio = distance / 128;
-                if (ratio > 1)
-                    continue;
+                double ratio = Math.min(distance / 128.0, 1.0);
                 float alpha = Math.min(Math.max((float) (
                     (1 - ratio) * .9 + MyGameOptions.scanAlphaOffset
                 ), .1f), 1f);
