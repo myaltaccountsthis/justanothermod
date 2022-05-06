@@ -6,6 +6,7 @@
   "mixins": [
     "AbstractClientPlayerEntityMixin",
     "ClientPlayerEntityMixin",
+    "ClientPlayerInteractionManagerMixin",
     "DebugHudMixin",
     "FishingBobberEntityMixin",
     "FogMixin",

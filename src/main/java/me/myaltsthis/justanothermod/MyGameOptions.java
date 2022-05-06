@@ -54,6 +54,8 @@ public abstract class MyGameOptions {
     public static final KeyBinding keyRefreshScan;
     public static final KeyBinding keyClearScan;
     public static final KeyBinding keySamePosScan;
+
+    public static final KeyBinding keyInfinitePlace;
     
     private static void accept(MyGameOptions.Visitor visitor) {
         enhancedMovement = visitor.visitBoolean("enhancedMovement", enhancedMovement);
@@ -314,6 +316,8 @@ public abstract class MyGameOptions {
         keyRefreshScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.refreshScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_BACKSLASH, "key.categories.misc"));
         keyClearScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.clearScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_BRACKET, "key.categories.misc"));
         keySamePosScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.samePosScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "key.categories.misc"));
+
+        keyInfinitePlace = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.infinitePlace", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, "key.categories.misc"));
 
         MyGameOptions.load();
     }

@@ -27,8 +27,10 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.suggestion.SuggestionProviders;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -50,6 +52,7 @@ public class JustAnotherModClient implements ClientModInitializer {
 
     public static Logger LOGGER = LogManager.getLogger("JustAnotherMod");
     public static boolean jumpNextTick = false;
+    public static boolean infinitePlace = false;
     public static ClickInterval interval = null; // make class for this that holds data: [left|right|stop (null)] [interval]
     public static int intervalDelay = 0;
 
@@ -73,6 +76,13 @@ public class JustAnotherModClient implements ClientModInitializer {
             }
             while (MyGameOptions.keySamePosScan.wasPressed()) {
                 Util.getMainWorkerExecutor().execute(new BlockScanner(false));
+            }
+            while (MyGameOptions.keyInfinitePlace.wasPressed()) {
+                infinitePlace = !infinitePlace;
+                PlayerEntity player = MinecraftClient.getInstance().player;
+                if (player != null) {
+                    player.sendSystemMessage(new TranslatableText("justanothermod.key.infinitePlace").append(" " + (infinitePlace ? "enabled" : "disabled")).formatted(Formatting.GREEN), null);
+                }
             }
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {

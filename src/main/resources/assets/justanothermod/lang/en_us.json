@@ -34,5 +34,7 @@
   "justanothermod.key.copyNbt": "Copy NBT",
   "justanothermod.key.refreshScan": "Scan Blocks",
   "justanothermod.key.clearScan": "Clear Scan",
-  "justanothermod.key.samePosScan": "Scan with same origin"
+  "justanothermod.key.samePosScan": "Scan with same origin",
+
+  "justanothermod.key.infinitePlace": "Infinite Place"
 }
