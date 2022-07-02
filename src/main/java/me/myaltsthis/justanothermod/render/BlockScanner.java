@@ -40,7 +40,7 @@ public class BlockScanner implements Runnable {
 
         ChunkManager chunkManager = world.getChunkManager();
 
-        int range = Math.min(instance.options.getViewDistance().getValue(), MyGameOptions.scanDistance);
+        int range = Math.min(instance.options.getViewDistance().getValue(), MyGameOptions.scanDistance.getValue());
 
         if (reposition || scanOrigin == null)
             scanOrigin = player.getBlockPos();
@@ -87,7 +87,7 @@ public class BlockScanner implements Runnable {
         pos = pos.toImmutable();
 
         boolean success = false;
-        ScanMode scanMode = MyGameOptions.scanMode;
+        ScanMode scanMode = MyGameOptions.scanMode.getValue();
         if (scanMode == ScanMode.MOB_SPAWN)
             success = canMobSpawn(pos, world);
         else if (scanMode == ScanMode.DIAMONDS) {

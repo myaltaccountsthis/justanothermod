@@ -4,3 +4,4 @@ accessible field net/minecraft/client/option/KeyBinding boundKey Lnet/minecraft/
 accessible method net/minecraft/client/MinecraftClient doItemUse ()V
 accessible method net/minecraft/client/MinecraftClient doAttack ()Z
 accessible method net/minecraft/client/option/GameOptions getPercentValueText (Lnet/minecraft/text/Text;D)Lnet/minecraft/text/Text;
+accessible class net/minecraft/client/option/GameOptions$Visitor

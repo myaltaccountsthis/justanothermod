@@ -15,7 +15,7 @@ public class GameRendererMixin {
     private void modifyFOV(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
         if (changingFov && (!((GameRenderer) (Object) this).isRenderingPanorama())) {
             if (MyGameOptions.keyZoom.isPressed()) {
-                cir.setReturnValue(cir.getReturnValueD() / MyGameOptions.zoomAmount);
+                cir.setReturnValue(cir.getReturnValueD() / MyGameOptions.zoomAmount.getValue());
             }
         }
     }

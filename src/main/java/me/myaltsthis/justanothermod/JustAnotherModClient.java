@@ -154,7 +154,7 @@ public class JustAnotherModClient implements ClientModInitializer {
         return MinecraftClient.getInstance().player != null ? MinecraftClient.getInstance().player.writeNbt(new NbtCompound()) : new NbtCompound();
     }
     public static NbtCompound getEntityNbt() {
-        return getEntityNbt(MyGameOptions.nbtFilter);
+        return getEntityNbt(MyGameOptions.nbtFilter.getValue());
     }
     public static String toPrettyFormat(String jsonString)
     {

@@ -23,7 +23,7 @@ public abstract class FishingBobberEntityMixin {
     // add setting and time delay
     @Inject(method = "onTrackedDataSet", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/projectile/FishingBobberEntity;caughtFish:Z"))
     private void checkCaughtFish(TrackedData<?> data, CallbackInfo ci) {
-        if (MyGameOptions.autoFish) {
+        if (MyGameOptions.autoFish.getValue()) {
             PlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null) {
                 if (player.equals(this.getPlayerOwner()) && this.caughtFish && this.hookCountdown == 0) {

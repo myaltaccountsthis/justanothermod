@@ -5,22 +5,17 @@ import me.myaltsthis.justanothermod.MyGameOptions;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import org.apache.logging.log4j.Logger;
-import org.objectweb.asm.tree.AnnotationNode;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import org.spongepowered.asm.util.Annotations;
 
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin {
@@ -31,7 +26,7 @@ public class ClientPlayerEntityMixin {
     @Shadow @Final public ClientPlayNetworkHandler networkHandler;
 
     private boolean isEnabled() {
-        return MyGameOptions.enhancedMovement;
+        return MyGameOptions.enhancedMovement.getValue();
     }
 
     @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)
@@ -67,7 +62,7 @@ public class ClientPlayerEntityMixin {
 
     @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isFallFlying()Z", shift = At.Shift.AFTER))
     private void forceFly(CallbackInfo ci) {
-        if (MyGameOptions.allowElytraBounce) {
+        if (MyGameOptions.allowElytraBounce.getValue()) {
             ClientPlayerEntity clientPlayerEntity = (ClientPlayerEntity) (Object) this;
             if (!clientPlayerEntity.isFallFlying() && JustAnotherModClient.jumpNextTick && clientPlayerEntity.checkFallFlying()) {
                 JustAnotherModClient.jumpNextTick = false;

@@ -2,22 +2,16 @@ package me.myaltsthis.justanothermod.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.myaltsthis.justanothermod.MyGameOptions;
-import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class MonkeyRenderer {
     public static void render(MatrixStack matrices, Camera camera) {
@@ -42,7 +36,7 @@ public class MonkeyRenderer {
                 double distance = Math.sqrt(pos.getSquaredDistance(player.getBlockPos()));
                 double ratio = Math.min(distance / 128.0, 1.0);
                 float alpha = Math.min(Math.max((float) (
-                    (1 - ratio) * .9 + MyGameOptions.scanAlphaOffset
+                    (1 - ratio) * .9 + MyGameOptions.scanAlphaOffset.getValue()
                 ), .1f), 1f);
                 WorldRenderer.drawBox(matrices, builder, new Box(pos), 0f, 0f, 1f, alpha);
             }

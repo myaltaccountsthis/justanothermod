@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class FogMixin {
     @Redirect(method = "applyFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogEnd(F)V", remap = false))
     private static void increaseFogMax(float f) {
-        if (MyGameOptions.fog)
+        if (MyGameOptions.fog.getValue())
             RenderSystem.setShaderFogEnd(f * 200);
         else
             RenderSystem.setShaderFogEnd(f);
@@ -19,7 +19,7 @@ public class FogMixin {
 
     @Redirect(method = "applyFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogStart(F)V"), remap = false)
     private static void increaseFogStart(float f) {
-        if (MyGameOptions.fog)
+        if (MyGameOptions.fog.getValue())
             RenderSystem.setShaderFogStart(f * 200);
         else
             RenderSystem.setShaderFogStart(f);

@@ -23,7 +23,7 @@ public class MonkeyRenderType extends RenderLayer {
                 256,
                 RenderLayer.MultiPhaseParameters.builder()
                         .shader(Shader.LINES_SHADER)
-                        .lineWidth(new LineWidth(OptionalDouble.of(MyGameOptions.scanLineWidth)))
+                        .lineWidth(new LineWidth(OptionalDouble.of(MyGameOptions.scanLineWidth.getValue())))
                         .layering(VIEW_OFFSET_Z_LAYERING)
                         .transparency(TRANSLUCENT_TRANSPARENCY)
                         .texture(NO_TEXTURE)

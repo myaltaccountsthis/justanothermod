@@ -22,7 +22,7 @@ public class InGameHudMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderMountHealth(Lnet/minecraft/client/util/math/MatrixStack;)V"))
     private void injectHud(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-        if (MyGameOptions.showHud) PlayerInfoHud.getInstance().render(matrices, tickDelta);
+        if (MyGameOptions.showHud.getValue()) PlayerInfoHud.getInstance().render(matrices, tickDelta);
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;render(Lnet/minecraft/client/util/math/MatrixStack;I)V"))
