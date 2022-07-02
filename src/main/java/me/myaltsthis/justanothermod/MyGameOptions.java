@@ -56,7 +56,8 @@ public abstract class MyGameOptions {
     public static final KeyBinding keySamePosScan;
 
     public static final KeyBinding keyInfinitePlace;
-    
+    public static final KeyBinding keyTogglePacketLog;
+
     private static void accept(MyGameOptions.Visitor visitor) {
         enhancedMovement = visitor.visitBoolean("enhancedMovement", enhancedMovement);
         allowElytraBounce = visitor.visitBoolean("elytraBounce", allowElytraBounce);
@@ -313,9 +314,11 @@ public abstract class MyGameOptions {
         keyShowTooltip = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.showTooltip", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, "key.categories.misc"));
         keyCopyNbt = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.copyNbt", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_CONTROL, "key.categories.misc"));
 
-        keyRefreshScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.refreshScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_BACKSLASH, "key.categories.misc"));
-        keyClearScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.clearScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_BRACKET, "key.categories.misc"));
-        keySamePosScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.samePosScan", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "key.categories.misc"));
+        keyRefreshScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.scan.refresh", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_BACKSLASH, "key.categories.misc"));
+        keyClearScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.scan.clear", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_BRACKET, "key.categories.misc"));
+        keySamePosScan = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.scan.samePos", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "key.categories.misc"));
+
+        keyTogglePacketLog = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.packet.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_H, "key.categories.misc"));
 
         keyInfinitePlace = KeyBindingHelper.registerKeyBinding(new KeyBinding("justanothermod.key.infinitePlace", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, "key.categories.misc"));
 

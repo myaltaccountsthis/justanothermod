@@ -12,6 +12,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import me.myaltsthis.justanothermod.enums.NbtFilter;
+import me.myaltsthis.justanothermod.hud.LoggerHud;
 import me.myaltsthis.justanothermod.render.BlockScanner;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -45,6 +46,8 @@ public class JustAnotherModClient implements ClientModInitializer {
     }};
 
     public static Logger LOGGER = LogManager.getLogger("JustAnotherMod");
+    public static LoggerHud loggerHud;
+    public static boolean loggerActive = false;
     public static boolean jumpNextTick = false;
     public static boolean infinitePlace = false;
     public static ClickInterval interval = null; // make class for this that holds data: [left|right|stop (null)] [interval]
@@ -62,15 +65,10 @@ public class JustAnotherModClient implements ClientModInitializer {
                     MinecraftClient.getInstance().player.sendSystemMessage(new LiteralText("Copied entity NBT to clipboard").formatted(Formatting.GREEN), null);
                 }
             }
-            while (MyGameOptions.keyRefreshScan.wasPressed()) {
-                Util.getMainWorkerExecutor().execute(new BlockScanner(true));
-            }
-            while (MyGameOptions.keyClearScan.wasPressed()) {
-                BlockScanner.blocksToRender.clear();
-            }
-            while (MyGameOptions.keySamePosScan.wasPressed()) {
-                Util.getMainWorkerExecutor().execute(new BlockScanner(false));
-            }
+            while (MyGameOptions.keyRefreshScan.wasPressed()) Util.getMainWorkerExecutor().execute(new BlockScanner(true));
+            while (MyGameOptions.keyClearScan.wasPressed()) BlockScanner.blocksToRender.clear();
+            while (MyGameOptions.keySamePosScan.wasPressed()) Util.getMainWorkerExecutor().execute(new BlockScanner(false));
+            while (MyGameOptions.keyTogglePacketLog.wasPressed()) loggerActive = !loggerActive;
             while (MyGameOptions.keyInfinitePlace.wasPressed()) {
                 infinitePlace = !infinitePlace;
                 PlayerEntity player = MinecraftClient.getInstance().player;
