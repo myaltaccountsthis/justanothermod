@@ -1,6 +1,5 @@
 package me.myaltsthis.justanothermod.mixin;
 
-import me.myaltsthis.justanothermod.JustAnotherModClient;
 import me.myaltsthis.justanothermod.MyGameOptions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.data.TrackedData;
@@ -22,7 +21,7 @@ public abstract class FishingBobberEntityMixin {
     @Shadow public abstract @Nullable PlayerEntity getPlayerOwner();
 
     // add setting and time delay
-    @Inject(method = "onTrackedDataSet", at = @At("TAIL"))
+    @Inject(method = "onTrackedDataSet", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/projectile/FishingBobberEntity;caughtFish:Z"))
     private void checkCaughtFish(TrackedData<?> data, CallbackInfo ci) {
         if (MyGameOptions.autoFish) {
             PlayerEntity player = MinecraftClient.getInstance().player;
