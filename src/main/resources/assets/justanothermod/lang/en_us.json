@@ -12,6 +12,7 @@
   "justanothermod.options.transparentBackground": "Transparent Background",
   "justanothermod.options.showHud": "Show HUD",
   "justanothermod.options.overrideBrightness": "Override Brightness",
+  "justanothermod.options.customGamma": "Custom Brightness",
   "justanothermod.options.maxFOV": "Max FOV",
   "justanothermod.options.moreButtons": "More Buttons..",
   "justanothermod.options.setMaxFOV": "Auto Set Max FOV",

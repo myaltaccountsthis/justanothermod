@@ -87,6 +87,6 @@ public class MyOptionsScreen extends GameOptionsScreen {
     }
 
     static {
-        OPTIONS = new SimpleOption[] {MyGameOptions.enhancedMovement, MyGameOptions.allowElytraBounce, MyGameOptions.fog, MyGameOptions.autoFish, MyGameOptions.transparentBackground, MyGameOptions.showHud, MyGameOptions.brightness, MyGameOptions.zoomAmount, /*MyGameOptions.MAX_FOV,*/ MyGameOptions.scanDistance, MyGameOptions.scanAlphaOffset, MyGameOptions.scanLineWidth, MyGameOptions.scanMode, MyGameOptions.nbtFilter};
+        OPTIONS = new SimpleOption[] {MyGameOptions.enhancedMovement, MyGameOptions.allowElytraBounce, MyGameOptions.fog, MyGameOptions.autoFish, MyGameOptions.transparentBackground, MyGameOptions.showHud, MyGameOptions.overrideBrightness, MyGameOptions.brightness, MyGameOptions.zoomAmount, /*MyGameOptions.MAX_FOV,*/ MyGameOptions.scanDistance, MyGameOptions.scanAlphaOffset, MyGameOptions.scanLineWidth, MyGameOptions.scanMode, MyGameOptions.nbtFilter};
     }
 }
