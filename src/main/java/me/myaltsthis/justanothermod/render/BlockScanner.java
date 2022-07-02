@@ -8,12 +8,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkManager;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class BlockScanner implements Runnable {
 
         ChunkManager chunkManager = world.getChunkManager();
 
-        int range = Math.min(instance.options.viewDistance, MyGameOptions.scanDistance);
+        int range = Math.min(instance.options.getViewDistance().getValue(), MyGameOptions.scanDistance);
 
         if (reposition || scanOrigin == null)
             scanOrigin = player.getBlockPos();

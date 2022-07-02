@@ -25,8 +25,6 @@
     "WorldMixin",
     "WorldRendererMixin"
   ],
-  "client": [
-  ],
   "injectors": {
     "defaultRequire": 1
   }

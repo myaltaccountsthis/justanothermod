@@ -1,16 +1,13 @@
 package me.myaltsthis.justanothermod.enums;
 
+import net.minecraft.util.TranslatableOption;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
-public enum ScanMode {
+public enum ScanMode implements TranslatableOption {
     MOB_SPAWN(0, "justanothermod.options.scanMode.mobSpawn"),
     DIAMONDS(1, "justanothermod.options.scanMode.diamonds"),
     TEXT(2, "justanothermod.options.scanMode.text");
 
-    private static final ScanMode[] VALUES;
     private final int id;
     private final String translationKey;
 
@@ -22,16 +19,12 @@ public enum ScanMode {
     public int getId() {
         return this.id;
     }
-
+    
     public String getTranslationKey() {
         return this.translationKey;
     }
 
     public static ScanMode byId(int id) {
-        return VALUES[MathHelper.floorMod(id, VALUES.length)];
-    }
-
-    static {
-        VALUES = Arrays.stream(ScanMode.values()).sorted(Comparator.comparingInt(ScanMode::getId)).toArray(ScanMode[]::new);
+        return values()[MathHelper.floorMod(id, values().length)];
     }
 }

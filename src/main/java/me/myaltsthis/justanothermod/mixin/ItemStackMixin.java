@@ -2,17 +2,17 @@ package me.myaltsthis.justanothermod.mixin;
 
 import me.myaltsthis.justanothermod.JustAnotherModClient;
 import me.myaltsthis.justanothermod.MyGameOptions;
-import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.input.Input;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.*;
-import net.minecraft.text.LiteralText;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -32,7 +32,7 @@ public abstract class ItemStackMixin {
     @Inject(method = "getTooltip", at = @At("TAIL"))
     private void addTooltip(@Nullable PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<Text>> cir) {
         List<Text> list = cir.getReturnValue();
-        LiteralText text = null;
+        MutableText text = null;
         if (nbt != null) {
             NbtCompound copy = nbt.copy();
             if (MinecraftClient.getInstance().player != null) {
@@ -40,7 +40,7 @@ public abstract class ItemStackMixin {
                     String toCopy = JustAnotherModClient.toPrettyFormat(copy.toString());
                     if (!toCopy.equals(MinecraftClient.getInstance().keyboard.getClipboard())) {
                         MinecraftClient.getInstance().keyboard.setClipboard(toCopy);
-                        MinecraftClient.getInstance().player.sendSystemMessage(new LiteralText("Copied item NBT to clipboard").formatted(Formatting.GREEN), null);
+                        MinecraftClient.getInstance().player.sendMessage(Text.literal("Copied item NBT to clipboard").formatted(Formatting.GREEN), false);
                     }
                 }
             }
@@ -60,11 +60,11 @@ public abstract class ItemStackMixin {
                 }
                 String nbtStr = JustAnotherModClient.toPrettyFormat(copy.toString());
                 for (String s : nbtStr.split("\n")) {
-                    list.add(new LiteralText(s).formatted(Formatting.DARK_GRAY));
+                    list.add(Text.literal(s).formatted(Formatting.DARK_GRAY));
                 }
                 return;
             } else {
-                text = new LiteralText(new TranslatableText("justanothermod.tooltipDefault").getString().replace("key", MyGameOptions.keyShowTooltip.getBoundKeyLocalizedText().getString()));
+                text = Text.literal(Text.translatable("justanothermod.tooltipDefault").getString().replace("key", MyGameOptions.keyShowTooltip.getBoundKeyLocalizedText().getString()));
             }
         }
         if (text != null)

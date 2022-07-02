@@ -2,14 +2,13 @@ package me.myaltsthis.justanothermod.mixin;
 
 import me.myaltsthis.justanothermod.JustAnotherModClient;
 import me.myaltsthis.justanothermod.MyGameOptions;
-import me.myaltsthis.justanothermod.enums.NbtFilter;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.DebugHud;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
@@ -48,7 +47,7 @@ public class DebugHudMixin {
                         String nbtStr = JustAnotherModClient.toPrettyFormat(nbt.toString());
                         toAdd.addAll(Arrays.stream(nbtStr.split("\n")).toList());
                     } else {
-                        toAdd.add(new TranslatableText("justanothermod.tooltipDefault").getString().replace("key", MyGameOptions.keyShowTooltip.getBoundKeyLocalizedText().getString()));
+                        toAdd.add(Text.translatable("justanothermod.tooltipDefault").getString().replace("key", MyGameOptions.keyShowTooltip.getBoundKeyLocalizedText().getString()));
                     }
                 }
             }
@@ -61,7 +60,7 @@ public class DebugHudMixin {
                         String nbtStr = JustAnotherModClient.toPrettyFormat(nbt.toString());
                         toAdd.addAll(List.of(nbtStr.split("\n")));
                     } else {
-                        toAdd.add(new TranslatableText("justanothermod.tooltipDefault").getString().replace("key", MyGameOptions.keyShowTooltip.getBoundKeyLocalizedText().getString()));
+                        toAdd.add(Text.translatable("justanothermod.tooltipDefault").getString().replace("key", MyGameOptions.keyShowTooltip.getBoundKeyLocalizedText().getString()));
                     }
                 }
             }

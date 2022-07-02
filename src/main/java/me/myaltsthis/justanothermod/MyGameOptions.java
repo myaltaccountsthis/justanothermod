@@ -6,7 +6,6 @@ import com.google.common.base.Splitter;
 import com.google.common.io.Files;
 import me.myaltsthis.justanothermod.enums.NbtFilter;
 import me.myaltsthis.justanothermod.enums.ScanMode;
-import me.myaltsthis.justanothermod.render.MonkeyRenderType;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
@@ -33,7 +32,7 @@ public abstract class MyGameOptions {
     
     private static final File optionsFile;
     public static boolean enhancedMovement = false;
-    public static boolean allowElytraBounce = true;
+    public static boolean allowElytraBounce = false;
     public static boolean fog = false;
     public static boolean autoFish = false;
     public static boolean transparentBackground = false;

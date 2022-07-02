@@ -3,6 +3,7 @@
   "justanothermod.optionsScreen": "My Options",
   "justanothermod.buttonScreen": "More Buttons",
   "justanothermod.tooltipDefault": "[(key) for NBT]",
+  "justanothermod.options.generic_value": "%s: %s",
 
   "justanothermod.options.enhancedMovement": "Monkey Mode",
   "justanothermod.options.elytraBounce": "Allow Elytra Bounce",

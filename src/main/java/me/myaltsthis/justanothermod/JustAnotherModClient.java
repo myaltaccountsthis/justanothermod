@@ -17,16 +17,15 @@ import me.myaltsthis.justanothermod.render.BlockScanner;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
-import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
@@ -62,7 +61,7 @@ public class JustAnotherModClient implements ClientModInitializer {
                 if (MinecraftClient.getInstance().player != null) {
                     NbtCompound nbt = getEntityNbt();
                     MinecraftClient.getInstance().keyboard.setClipboard(JustAnotherModClient.toPrettyFormat(nbt.toString()));
-                    MinecraftClient.getInstance().player.sendSystemMessage(new LiteralText("Copied entity NBT to clipboard").formatted(Formatting.GREEN), null);
+                    MinecraftClient.getInstance().player.sendMessage(Text.literal("Copied entity NBT to clipboard").formatted(Formatting.GREEN), false);
                 }
             }
             while (MyGameOptions.keyRefreshScan.wasPressed()) Util.getMainWorkerExecutor().execute(new BlockScanner(true));
@@ -73,7 +72,7 @@ public class JustAnotherModClient implements ClientModInitializer {
                 infinitePlace = !infinitePlace;
                 PlayerEntity player = MinecraftClient.getInstance().player;
                 if (player != null) {
-                    player.sendSystemMessage(new TranslatableText("justanothermod.key.infinitePlace").append(" " + (infinitePlace ? "enabled" : "disabled")).formatted(Formatting.GREEN), null);
+                    player.sendMessage(Text.translatable("justanothermod.key.infinitePlace").append(" " + (infinitePlace ? "enabled" : "disabled")).formatted(Formatting.GREEN), false);
                 }
             }
         });
@@ -97,18 +96,18 @@ public class JustAnotherModClient implements ClientModInitializer {
                 }
             }
         });
-        ClientCommandManager.DISPATCHER.register(ClientCommandManager.literal("interval").executes(context -> {
-            context.getSource().sendFeedback(new LiteralText("Use command with arguments"));
+        ClientCommandManager.getActiveDispatcher().register(ClientCommandManager.literal("interval").executes(context -> {
+            context.getSource().sendFeedback(Text.literal("Use command with arguments"));
             return 0;
         }).then(ClientCommandManager.argument("type", StringArgumentType.word()).suggests(new IntervalTypeSuggestionProvider()).executes(context -> {
             switch (StringArgumentType.getString(context, "type").toLowerCase()) {
-                case "left", "right" -> context.getSource().sendFeedback(new LiteralText("Must provide interval"));
-                case "show" -> context.getSource().sendFeedback(new LiteralText("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
+                case "left", "right" -> context.getSource().sendFeedback(Text.literal("Must provide interval"));
+                case "show" -> context.getSource().sendFeedback(Text.literal("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
                 case "stop" -> {
                     JustAnotherModClient.interval = null;
-                    context.getSource().sendFeedback(new LiteralText("Stopped interval").formatted(Formatting.GREEN));
+                    context.getSource().sendFeedback(Text.literal("Stopped interval").formatted(Formatting.GREEN));
                 }
-                default -> context.getSource().sendFeedback(new LiteralText("Invalid argument").formatted(Formatting.RED));
+                default -> context.getSource().sendFeedback(Text.literal("Invalid argument").formatted(Formatting.RED));
             }
             return 1;
         }).then(ClientCommandManager.argument("interval", IntegerArgumentType.integer()).executes(context -> {
@@ -117,19 +116,19 @@ public class JustAnotherModClient implements ClientModInitializer {
                 case "left" -> {
                     intervalDelay = interval;
                     JustAnotherModClient.interval = new ClickInterval(false, interval);
-                    context.getSource().sendFeedback(new LiteralText("Started interval: " + JustAnotherModClient.interval).formatted(Formatting.GREEN));
+                    context.getSource().sendFeedback(Text.literal("Started interval: " + JustAnotherModClient.interval).formatted(Formatting.GREEN));
                 }
                 case "right" -> {
                     intervalDelay = interval;
                     JustAnotherModClient.interval = new ClickInterval(true, interval);
-                    context.getSource().sendFeedback(new LiteralText("Started interval: " + JustAnotherModClient.interval).formatted(Formatting.GREEN));
+                    context.getSource().sendFeedback(Text.literal("Started interval: " + JustAnotherModClient.interval).formatted(Formatting.GREEN));
                 }
-                case "show" -> context.getSource().sendFeedback(new LiteralText("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
+                case "show" -> context.getSource().sendFeedback(Text.literal("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
                 case "stop" -> {
                     JustAnotherModClient.interval = null;
-                    context.getSource().sendFeedback(new LiteralText("Stopped interval").formatted(Formatting.GREEN));
+                    context.getSource().sendFeedback(Text.literal("Stopped interval").formatted(Formatting.GREEN));
                 }
-                default -> context.getSource().sendFeedback(new LiteralText("Invalid argument").formatted(Formatting.RED));
+                default -> context.getSource().sendFeedback(Text.literal("Invalid argument").formatted(Formatting.RED));
             }
             return 1;
         }))));

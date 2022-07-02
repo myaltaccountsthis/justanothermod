@@ -8,13 +8,14 @@ import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.Packet;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.MutableText;
 
 public class LoggerHud extends ChatHud {
     public LoggerHud(MinecraftClient client) {
         super(client);
         System.out.println(client.inGameHud);
-        this.addMessage(new LiteralText("Loaded"));
+        this.addMessage(Text.literal("Loaded")));
     }
 
     @Override
@@ -44,6 +45,6 @@ public class LoggerHud extends ChatHud {
         return packet.getClass().getSimpleName();
     }
     public static void logReceivedPacket(Packet<?> packet, NetworkSide side) {
-        JustAnotherModClient.loggerHud.addMessage(new LiteralText("Received packet with channel '" + getChannel(packet) + "' (" + getSideName(side) + ")"));
+        JustAnotherModClient.loggerHud.addMessage(Text.literal("Received packet with channel '" + getChannel(packet) + "' (" + getSideName(side) + ")")));
     }
 }

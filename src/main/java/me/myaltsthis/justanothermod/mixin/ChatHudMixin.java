@@ -3,7 +3,6 @@ package me.myaltsthis.justanothermod.mixin;
 import me.myaltsthis.justanothermod.JustAnotherModClient;
 import me.myaltsthis.justanothermod.hud.LoggerHud;
 import net.minecraft.client.gui.hud.ChatHud;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,10 +18,10 @@ public class ChatHudMixin {
         }
     }
 
-    @Redirect(method = "addMessage(Lnet/minecraft/text/Text;I)V", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;)V"))
-    private void doNotLogForPacket(Logger LOGGER, String s, Object o) {
+    @Redirect(method = "addMessage(Lnet/minecraft/text/Text;I)V", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;info(Ljava/lang/String;Ljava/lang/Object;)V"))
+    private void doNotLogForPacket(org.slf4j.Logger instance, String s, Object o) {
         if (!this.getClass().getName().equals(LoggerHud.class.getName())) {
-            LOGGER.info(s, o);
+            instance.info(s, o);
         }
     }
 }
