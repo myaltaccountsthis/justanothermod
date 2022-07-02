@@ -63,7 +63,7 @@ public class BlockScanner implements Runnable {
             }
         }
         JustAnotherModClient.LOGGER.info("Scanned and found " + blocksToRender.size() + " blocks");
-        player.sendMessage(Text.literal("Scanned and found " + blocksToRender.size() + " blocks").formatted(Formatting.GREEN), null);
+        player.sendMessage(Text.literal("Scanned and found " + blocksToRender.size() + " blocks").formatted(Formatting.GREEN), false);
     }
 
     private static boolean canMobSpawn(BlockPos pos, World world) {
