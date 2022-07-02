@@ -50,7 +50,8 @@ public abstract class MyGameOptions {
     public static final SimpleOption<Boolean> autoFish = SimpleOption.ofBoolean("justanothermod.options.autoFish", false);
     public static final SimpleOption<Boolean> transparentBackground = SimpleOption.ofBoolean("justanothermod.options.transparentBackground", false);
     public static final SimpleOption<Boolean> showHud = SimpleOption.ofBoolean("justanothermod.options.showHud", false);
-    //public static final SimpleOption<Double> BRIGHTNESS = new SimpleOption<Double>("customGamma", SimpleOption.emptyTooltip(), (prefix, value) -> Text.translatable("options.percent_value", prefix, (int)(value * 100.0)), 0.0D, 10.0D, 0.1F, gameOptions -> gameOptions.gamma, (gameOptions, gamma) -> gameOptions.gamma = gamma, (gameOptions, option) -> Text.translatable("options.gamma")).append(": " + Math.round(option.get(gameOptions) * 100) + "%"));
+    public static final SimpleOption<Boolean> overrideBrightness = SimpleOption.ofBoolean("justanothermod.options.overrideBrightness", false);
+    public static final SimpleOption<Double> brightness = new SimpleOption<Double>("customGamma", SimpleOption.emptyTooltip(), GameOptions::getPercentValueText, new SimpleOption.ValidatingIntSliderCallbacks(0, 100).withModifier(sliderProgressValue -> sliderProgressValue / 10.0, value -> (int) (value * 10)), Codec.doubleRange(0.0D, 10.0D), 1.0, value -> {});
     public static final SimpleOption<Double> zoomAmount = new SimpleOption<>("justanothermod.options.zoomAmount",  SimpleOption.emptyTooltip(), GameOptions::getPercentValueText, new SimpleOption.ValidatingIntSliderCallbacks(10, 100).withModifier(sliderProgressValue -> sliderProgressValue / 10.0, value -> (int) (value * 10)), Codec.doubleRange(1.0, 10.0), 4.0, value -> {});
     //public static final SimpleOption<Double> MAX_FOV = new SimpleOption<Double>("justanothermod.options.maxFOV", 30.0D, 360.0D, 1.0F, gameOptions -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> Text.translatable("justanothermod.options.maxFOV")).append(": " + Math.round(option.get(gameOptions))));
     public static final SimpleOption<Integer> scanDistance = new SimpleOption<>("justanothermod.options.scanDistance", SimpleOption.emptyTooltip(), GameOptions::getGenericValueText, new SimpleOption.ValidatingIntSliderCallbacks(0, 8), Codec.intRange(0, 8), 4, value -> {});
@@ -98,6 +99,7 @@ public abstract class MyGameOptions {
         visitor.accept("autoFish", autoFish);
         visitor.accept("transparentBackground", transparentBackground);
         visitor.accept("showHud", showHud);
+        visitor.accept("overrideBrightness", overrideBrightness);
         visitor.accept("zoomAmount", zoomAmount);
         //visitor.accept("maxFOV", maxFOV);
         visitor.accept("scanDistance", scanDistance);

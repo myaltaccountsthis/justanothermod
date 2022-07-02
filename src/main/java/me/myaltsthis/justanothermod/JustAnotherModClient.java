@@ -96,42 +96,44 @@ public class JustAnotherModClient implements ClientModInitializer {
                 }
             }
         });
-        ClientCommandManager.getActiveDispatcher().register(ClientCommandManager.literal("interval").executes(context -> {
-            context.getSource().sendFeedback(Text.literal("Use command with arguments"));
-            return 0;
-        }).then(ClientCommandManager.argument("type", StringArgumentType.word()).suggests(new IntervalTypeSuggestionProvider()).executes(context -> {
-            switch (StringArgumentType.getString(context, "type").toLowerCase()) {
-                case "left", "right" -> context.getSource().sendFeedback(Text.literal("Must provide interval"));
-                case "show" -> context.getSource().sendFeedback(Text.literal("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
-                case "stop" -> {
-                    JustAnotherModClient.interval = null;
-                    context.getSource().sendFeedback(Text.literal("Stopped interval").formatted(Formatting.GREEN));
+        if (ClientCommandManager.getActiveDispatcher() != null) {
+            ClientCommandManager.getActiveDispatcher().register(ClientCommandManager.literal("interval").executes(context -> {
+                context.getSource().sendFeedback(Text.literal("Use command with arguments"));
+                return 0;
+            }).then(ClientCommandManager.argument("type", StringArgumentType.word()).suggests(new IntervalTypeSuggestionProvider()).executes(context -> {
+                switch (StringArgumentType.getString(context, "type").toLowerCase()) {
+                    case "left", "right" -> context.getSource().sendFeedback(Text.literal("Must provide interval"));
+                    case "show" -> context.getSource().sendFeedback(Text.literal("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
+                    case "stop" -> {
+                        JustAnotherModClient.interval = null;
+                        context.getSource().sendFeedback(Text.literal("Stopped interval").formatted(Formatting.GREEN));
+                    }
+                    default -> context.getSource().sendFeedback(Text.literal("Invalid argument").formatted(Formatting.RED));
                 }
-                default -> context.getSource().sendFeedback(Text.literal("Invalid argument").formatted(Formatting.RED));
-            }
-            return 1;
-        }).then(ClientCommandManager.argument("interval", IntegerArgumentType.integer()).executes(context -> {
-            int interval = IntegerArgumentType.getInteger(context, "interval");
-            switch (StringArgumentType.getString(context, "type").toLowerCase()) {
-                case "left" -> {
-                    intervalDelay = interval;
-                    JustAnotherModClient.interval = new ClickInterval(false, interval);
-                    context.getSource().sendFeedback(Text.literal("Started interval: " + JustAnotherModClient.interval).formatted(Formatting.GREEN));
+                return 1;
+            }).then(ClientCommandManager.argument("interval", IntegerArgumentType.integer()).executes(context -> {
+                int interval = IntegerArgumentType.getInteger(context, "interval");
+                switch (StringArgumentType.getString(context, "type").toLowerCase()) {
+                    case "left" -> {
+                        intervalDelay = interval;
+                        JustAnotherModClient.interval = new ClickInterval(false, interval);
+                        context.getSource().sendFeedback(Text.literal("Started interval: " + JustAnotherModClient.interval).formatted(Formatting.GREEN));
+                    }
+                    case "right" -> {
+                        intervalDelay = interval;
+                        JustAnotherModClient.interval = new ClickInterval(true, interval);
+                        context.getSource().sendFeedback(Text.literal("Started interval: " + JustAnotherModClient.interval).formatted(Formatting.GREEN));
+                    }
+                    case "show" -> context.getSource().sendFeedback(Text.literal("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
+                    case "stop" -> {
+                        JustAnotherModClient.interval = null;
+                        context.getSource().sendFeedback(Text.literal("Stopped interval").formatted(Formatting.GREEN));
+                    }
+                    default -> context.getSource().sendFeedback(Text.literal("Invalid argument").formatted(Formatting.RED));
                 }
-                case "right" -> {
-                    intervalDelay = interval;
-                    JustAnotherModClient.interval = new ClickInterval(true, interval);
-                    context.getSource().sendFeedback(Text.literal("Started interval: " + JustAnotherModClient.interval).formatted(Formatting.GREEN));
-                }
-                case "show" -> context.getSource().sendFeedback(Text.literal("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
-                case "stop" -> {
-                    JustAnotherModClient.interval = null;
-                    context.getSource().sendFeedback(Text.literal("Stopped interval").formatted(Formatting.GREEN));
-                }
-                default -> context.getSource().sendFeedback(Text.literal("Invalid argument").formatted(Formatting.RED));
-            }
-            return 1;
-        }))));
+                return 1;
+            }))));
+        }
         LOGGER.info("loaded");
     }
     public static NbtCompound getEntityNbt(NbtFilter filterType) {

@@ -1,6 +1,7 @@
 package me.myaltsthis.justanothermod.mixin;
 
 import com.google.gson.Gson;
+import me.myaltsthis.justanothermod.MyGameOptions;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class GameOptionsMixin {
     @Inject(method = "getGamma", at = @At("HEAD"), cancellable = true)
     private void overrideGamma(CallbackInfoReturnable<SimpleOption<Double>> cir) {
-
+        if (MyGameOptions.overrideBrightness.getValue()) {
+            cir.setReturnValue(MyGameOptions.brightness);
+        }
     }
 
     @Invoker("isTrue")
