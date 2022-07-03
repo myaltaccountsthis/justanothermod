@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.io.Files;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
@@ -40,6 +41,7 @@ import java.util.function.Function;
 public abstract class MyGameOptions {
     static final Logger LOGGER = LogManager.getLogger();
     static final Splitter COLON_SPLITTER = Splitter.on(":").limit(2);
+    static final Gson GSON = new Gson();
 
     private static final File optionsFile;
     public static String blockToScan = "";
@@ -100,6 +102,7 @@ public abstract class MyGameOptions {
         visitor.accept("transparentBackground", transparentBackground);
         visitor.accept("showHud", showHud);
         visitor.accept("overrideBrightness", overrideBrightness);
+        visitor.accept("customBrightness", brightness);
         visitor.accept("zoomAmount", zoomAmount);
         //visitor.accept("maxFOV", maxFOV);
         visitor.accept("scanDistance", scanDistance);
@@ -112,37 +115,23 @@ public abstract class MyGameOptions {
 
     public static void load() {
         try {
-            if (!MyGameOptions.optionsFile.exists()) {
+            if (!optionsFile.exists()) {
                 return;
             }
             NbtCompound nbtCompound = new NbtCompound();
-            BufferedReader bufferedReader = Files.newReader(MyGameOptions.optionsFile, Charsets.UTF_8);
-
-            try {
-                bufferedReader.lines().forEach((line) -> {
+            try (BufferedReader bufferedReader = Files.newReader(optionsFile, Charsets.UTF_8);){
+                bufferedReader.lines().forEach(line -> {
                     try {
-                        Iterator<String> iterator = COLON_SPLITTER.split(line).iterator();
+                        Iterator<String> iterator = COLON_SPLITTER.split((CharSequence)line).iterator();
                         nbtCompound.putString(iterator.next(), iterator.next());
-                    } catch (Exception var3) {
-                        MyGameOptions.LOGGER.warn("Skipping bad option: {}", line);
                     }
-
+                    catch (Exception exception) {
+                        LOGGER.warn("Skipping bad option: {}", line);
+                    }
                 });
-            } catch (Throwable var6) {
-                try {
-                    bufferedReader.close();
-                } catch (Throwable var5) {
-                    var6.addSuppressed(var5);
-                }
-
-                throw var6;
             }
-
-            bufferedReader.close();
-
-            final NbtCompound nbtCompound2 = MyGameOptions.update(nbtCompound);
-
-            MyGameOptions.accept(new GameOptions.Visitor() {
+            final NbtCompound nbtCompound2 = update(nbtCompound);
+            accept(new GameOptions.Visitor(){
                 @Nullable
                 private String find(String key) {
                     return nbtCompound2.contains(key) ? nbtCompound2.getString(key) : null;
@@ -177,7 +166,7 @@ public abstract class MyGameOptions {
                 @Override
                 public boolean visitBoolean(String key, boolean current) {
                     String string = this.find(key);
-                    return string != null ? GameOptionsMixin.isTrue(string) : current;
+                    return string != null ? MyGameOptions.isTrue(string) : current;
                 }
 
                 @Override
@@ -189,10 +178,10 @@ public abstract class MyGameOptions {
                 public float visitFloat(String key, float current) {
                     String string = this.find(key);
                     if (string != null) {
-                        if (GameOptionsMixin.isTrue(string)) {
+                        if (MyGameOptions.isTrue(string)) {
                             return 1.0f;
                         }
-                        if (GameOptionsMixin.isFalse(string)) {
+                        if (MyGameOptions.isFalse(string)) {
                             return 0.0f;
                         }
                         try {
@@ -211,18 +200,16 @@ public abstract class MyGameOptions {
                     return string == null ? current : decoder.apply(string);
                 }
             });
-
-            KeyBinding.updateKeysByCode();
-        } catch (Exception var7) {
-            LOGGER.error("Failed to load options", var7);
         }
-
+        catch (Exception exception) {
+            LOGGER.error("Failed to load options", exception);
+        }
     }
     static boolean isTrue(String value) {
-        return "true".equals(value);
+        return GameOptionsMixin.isTrue(value);
     }
     static boolean isFalse(String value) {
-        return "false".equals(value);
+        return GameOptionsMixin.isFalse(value);
     }
     
     private static NbtCompound update(NbtCompound nbt) {
@@ -238,77 +225,65 @@ public abstract class MyGameOptions {
     }
     
     public static void write() {
-        try {
-            final PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(MyGameOptions.optionsFile), StandardCharsets.UTF_8));
+        try (final PrintWriter printWriter = new PrintWriter(new OutputStreamWriter((OutputStream)new FileOutputStream(optionsFile), StandardCharsets.UTF_8));){
+            printWriter.println("version:" + SharedConstants.getGameVersion().getWorldVersion());
+            accept(new GameOptions.Visitor(){
 
-            try {
-                printWriter.println("version:" + SharedConstants.getGameVersion().getWorldVersion());
-                accept(new GameOptions.Visitor() {
-                    public void print(String key) {
-                        printWriter.print(key);
-                        printWriter.print(':');
-                    }
-
-                    @Override
-                    public <T> void accept(String key, SimpleOption<T> option) {
-                        DataResult<JsonElement> dataResult = option.getCodec().encodeStart(JsonOps.INSTANCE, (T) option.getValue());
-                        dataResult.error().ifPresent(partialResult -> LOGGER.error("Error saving option " + option + ": " + partialResult));
-                        dataResult.result().ifPresent(json -> {
-                            this.print(key);
-                            printWriter.println(GameOptionsMixin.getGSON().toJson((JsonElement)json));
-                        });
-                    }
-
-                    @Override
-                    public int visitInt(String key, int current) {
-                        this.print(key);
-                        printWriter.println(current);
-                        return current;
-                    }
-
-                    @Override
-                    public boolean visitBoolean(String key, boolean current) {
-                        this.print(key);
-                        printWriter.println(current);
-                        return current;
-                    }
-
-                    @Override
-                    public String visitString(String key, String current) {
-                        this.print(key);
-                        printWriter.println(current);
-                        return current;
-                    }
-
-                    @Override
-                    public float visitFloat(String key, float current) {
-                        this.print(key);
-                        printWriter.println(current);
-                        return current;
-                    }
-
-                    @Override
-                    public <T> T visitObject(String key, T current, Function<String, T> decoder, Function<T, String> encoder) {
-                        this.print(key);
-                        printWriter.println(encoder.apply(current));
-                        return current;
-                    }
-                });
-            } catch (Throwable throwable) {
-                try {
-                    printWriter.close();
-                } catch (Throwable throwable2) {
-                    throwable.addSuppressed(throwable2);
+                public void print(String key) {
+                    printWriter.print(key);
+                    printWriter.print(':');
                 }
 
-                throw throwable;
-            }
+                @Override
+                public <T> void accept(String key, SimpleOption<T> option) {
+                    DataResult<JsonElement> dataResult = option.getCodec().encodeStart(JsonOps.INSTANCE, (T) option.getValue());
+                    dataResult.error().ifPresent(partialResult -> LOGGER.error("Error saving option " + option + ": " + partialResult));
+                    dataResult.result().ifPresent(json -> {
+                        this.print(key);
+                        printWriter.println(GSON.toJson((JsonElement)json));
+                    });
+                }
 
-            printWriter.close();
-        } catch (Exception var6) {
-            MyGameOptions.LOGGER.error("Failed to save options", var6);
+                @Override
+                public int visitInt(String key, int current) {
+                    this.print(key);
+                    printWriter.println(current);
+                    return current;
+                }
+
+                @Override
+                public boolean visitBoolean(String key, boolean current) {
+                    this.print(key);
+                    printWriter.println(current);
+                    return current;
+                }
+
+                @Override
+                public String visitString(String key, String current) {
+                    this.print(key);
+                    printWriter.println(current);
+                    return current;
+                }
+
+                @Override
+                public float visitFloat(String key, float current) {
+                    this.print(key);
+                    printWriter.println(current);
+                    return current;
+                }
+
+                @Override
+                public <T> T visitObject(String key, T current, Function<String, T> decoder, Function<T, String> encoder) {
+                    this.print(key);
+                    printWriter.println(encoder.apply(current));
+                    return current;
+                }
+            });
         }
-        //LOGGER.log(Level.INFO, "Wrote to file");
+        catch (Exception exception) {
+            LOGGER.error("Failed to save options", exception);
+        }
+        LOGGER.info("Wrote to file");
     }
     
     static {

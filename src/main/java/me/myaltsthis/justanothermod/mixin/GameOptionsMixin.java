@@ -1,11 +1,9 @@
 package me.myaltsthis.justanothermod.mixin;
 
-import com.google.gson.Gson;
 import me.myaltsthis.justanothermod.MyGameOptions;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,11 +25,6 @@ public class GameOptionsMixin {
 
     @Invoker("isFalse")
     public static boolean isFalse(String value) {
-        throw new AssertionError();
-    }
-
-    @Accessor("GSON")
-    public static Gson getGSON() {
         throw new AssertionError();
     }
 }
