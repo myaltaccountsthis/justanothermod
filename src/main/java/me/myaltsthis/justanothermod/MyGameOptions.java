@@ -52,16 +52,16 @@ public abstract class MyGameOptions {
     public static final SimpleOption<Boolean> autoFish = SimpleOption.ofBoolean("justanothermod.options.autoFish", false);
     public static final SimpleOption<Boolean> transparentBackground = SimpleOption.ofBoolean("justanothermod.options.transparentBackground", false);
     public static final SimpleOption<Boolean> showHud = SimpleOption.ofBoolean("justanothermod.options.showHud", false);
+    public static final SimpleOption<Boolean> airMovement = SimpleOption.ofBoolean("justanothermod.options.airMovement", false);
     public static final SimpleOption<Boolean> overrideBrightness = SimpleOption.ofBoolean("justanothermod.options.overrideBrightness", false);
-    public static final SimpleOption<Double> brightness = new SimpleOption<Double>("justanothermod.options.customGamma", SimpleOption.emptyTooltip(), GameOptions::getPercentValueText, new SimpleOption.ValidatingIntSliderCallbacks(0, 100).withModifier(sliderProgressValue -> sliderProgressValue / 10.0, value -> (int) (value * 10)), Codec.doubleRange(0.0D, 10.0D), 1.0, value -> {});
+    public static final SimpleOption<Double> brightness = new SimpleOption<>("justanothermod.options.customGamma", SimpleOption.emptyTooltip(), GameOptions::getPercentValueText, new SimpleOption.ValidatingIntSliderCallbacks(0, 100).withModifier(sliderProgressValue -> sliderProgressValue / 10.0, value -> (int) (value * 10)), Codec.doubleRange(0.0D, 10.0D), 1.0, value -> {});
     public static final SimpleOption<Double> zoomAmount = new SimpleOption<>("justanothermod.options.zoomAmount",  SimpleOption.emptyTooltip(), GameOptions::getPercentValueText, new SimpleOption.ValidatingIntSliderCallbacks(10, 100).withModifier(sliderProgressValue -> sliderProgressValue / 10.0, value -> (int) (value * 10)), Codec.doubleRange(1.0, 10.0), 4.0, value -> {});
     //public static final SimpleOption<Double> MAX_FOV = new SimpleOption<Double>("justanothermod.options.maxFOV", 30.0D, 360.0D, 1.0F, gameOptions -> MyGameOptions.maxFOV, (gameOptions, maxZoom) -> MyGameOptions.maxFOV = maxZoom, (gameOptions, option) -> Text.translatable("justanothermod.options.maxFOV")).append(": " + Math.round(option.get(gameOptions))));
     public static final SimpleOption<Integer> scanDistance = new SimpleOption<>("justanothermod.options.scanDistance", SimpleOption.emptyTooltip(), GameOptions::getGenericValueText, new SimpleOption.ValidatingIntSliderCallbacks(0, 8), Codec.intRange(0, 8), 4, value -> {});
     public static final SimpleOption<Double> scanAlphaOffset = new SimpleOption<>("justanothermod.options.scanAlphaOffset", SimpleOption.emptyTooltip(), MyGameOptions::getGenericValueText, new SimpleOption.ValidatingIntSliderCallbacks(-10, 10).withModifier(sliderProgressValue -> sliderProgressValue / 10.0, value -> (int) (value * 10)), Codec.doubleRange(-1.0D, 1.0D), -.3, value -> {});
     public static final SimpleOption<Double> scanLineWidth = new SimpleOption<>("justanothermod.options.scanLineWidth", SimpleOption.emptyTooltip(), (prefix, value) -> MutableText.of(getGenericValueText(prefix, value).getContent()).append("px"), new SimpleOption.ValidatingIntSliderCallbacks(0, 10).withModifier(sliderProgressValue -> sliderProgressValue / 2.0, value -> (int) (value * 2)), Codec.doubleRange(0.0D, 5.0D), 3.0, scanLineWidth -> MonkeyRenderType.refreshOverlayLines());
     public static final SimpleOption<ScanMode> scanMode = new SimpleOption<>("justanothermod.options.scanMode", SimpleOption.emptyTooltip(), SimpleOption.enumValueText(), new SimpleOption.PotentialValuesBasedCallbacks<>(Arrays.asList(ScanMode.values()), Codec.INT.xmap(ScanMode::byId, ScanMode::getId)), ScanMode.MOB_SPAWN, value -> {});
-    public static final SimpleOption<NbtFilter> nbtFilter = new SimpleOption<NbtFilter>("justanothermod.options.nbtFilter", SimpleOption.emptyTooltip(), SimpleOption.enumValueText(),new SimpleOption.PotentialValuesBasedCallbacks<>(Arrays.asList(NbtFilter.values()), Codec.INT.xmap(NbtFilter::byId, NbtFilter::getId)), NbtFilter.BASIC, value -> {});
-
+    public static final SimpleOption<NbtFilter> nbtFilter = new SimpleOption<>("justanothermod.options.nbtFilter", SimpleOption.emptyTooltip(), SimpleOption.enumValueText(), new SimpleOption.PotentialValuesBasedCallbacks<>(Arrays.asList(NbtFilter.values()), Codec.INT.xmap(NbtFilter::byId, NbtFilter::getId)), NbtFilter.BASIC, value -> {});
 
     public static Text getGenericValueText(Text prefix, Object value) {
         return Text.translatable("justanothermod.options.generic_value", prefix, Text.literal(value.toString()));
@@ -101,6 +101,7 @@ public abstract class MyGameOptions {
         visitor.accept("autoFish", autoFish);
         visitor.accept("transparentBackground", transparentBackground);
         visitor.accept("showHud", showHud);
+        visitor.accept("airMovement", airMovement);
         visitor.accept("overrideBrightness", overrideBrightness);
         visitor.accept("customBrightness", brightness);
         visitor.accept("zoomAmount", zoomAmount);

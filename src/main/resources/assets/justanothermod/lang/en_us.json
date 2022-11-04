@@ -11,6 +11,7 @@
   "justanothermod.options.autoFish": "Auto Fish",
   "justanothermod.options.transparentBackground": "Transparent Background",
   "justanothermod.options.showHud": "Show HUD",
+  "justanothermod.options.airMovement": "Low Air Drag",
   "justanothermod.options.overrideBrightness": "Override Brightness",
   "justanothermod.options.customGamma": "Custom Brightness",
   "justanothermod.options.maxFOV": "Max FOV",

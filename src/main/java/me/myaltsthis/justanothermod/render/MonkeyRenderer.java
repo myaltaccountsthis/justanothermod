@@ -32,7 +32,7 @@ public class MonkeyRenderer {
             matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
             RenderSystem.disableDepthTest();
 
-            for (BlockPos pos : (ArrayList<BlockPos>) BlockScanner.blocksToRender.clone()) {
+            for (BlockPos pos : new ArrayList<>(BlockScanner.blocksToRender)) {
                 double distance = Math.sqrt(pos.getSquaredDistance(player.getBlockPos()));
                 double ratio = Math.min(distance / 128.0, 1.0);
                 float alpha = Math.min(Math.max((float) (

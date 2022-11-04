@@ -7,7 +7,6 @@ import com.google.gson.JsonParser;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
@@ -18,6 +17,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
@@ -76,39 +76,20 @@ public class JustAnotherModClient implements ClientModInitializer {
                 }
             }
         });
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
-            JustAnotherModClient.interval = null;
-        });
-        ClientTickEvents.START_WORLD_TICK.register(world -> {
-            if (interval != null) {
-                intervalDelay--;
-            }
-        });
-        ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            if (interval != null) {
-                if (intervalDelay <= 0) {
-                    intervalDelay = interval.interval;
-                    if (interval.isRightHand) {
-                        MinecraftClient.getInstance().doItemUse();
-                    } else {
-                        MinecraftClient.getInstance().doAttack();
-                    }
-                }
-            }
-        });
-        if (ClientCommandManager.getActiveDispatcher() != null) {
-            ClientCommandManager.getActiveDispatcher().register(ClientCommandManager.literal("interval").executes(context -> {
-                context.getSource().sendFeedback(Text.literal("Use command with arguments"));
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            dispatcher.register(ClientCommandManager.literal("interval").executes(context -> {
+                context.getSource().sendError(Text.literal("Use command with arguments"));
                 return 0;
             }).then(ClientCommandManager.argument("type", StringArgumentType.word()).suggests(new IntervalTypeSuggestionProvider()).executes(context -> {
                 switch (StringArgumentType.getString(context, "type").toLowerCase()) {
-                    case "left", "right" -> context.getSource().sendFeedback(Text.literal("Must provide interval"));
+                    case "left", "right" -> context.getSource().sendError(Text.literal("Must provide interval"));
                     case "show" -> context.getSource().sendFeedback(Text.literal("Currently running " + (JustAnotherModClient.interval != null ? JustAnotherModClient.interval : "nothing")).formatted(Formatting.GREEN));
                     case "stop" -> {
                         JustAnotherModClient.interval = null;
                         context.getSource().sendFeedback(Text.literal("Stopped interval").formatted(Formatting.GREEN));
                     }
-                    default -> context.getSource().sendFeedback(Text.literal("Invalid argument").formatted(Formatting.RED));
+                    default -> context.getSource().sendError(Text.literal("Invalid argument").formatted(Formatting.RED));
                 }
                 return 1;
             }).then(ClientCommandManager.argument("interval", IntegerArgumentType.integer()).executes(context -> {
@@ -129,13 +110,37 @@ public class JustAnotherModClient implements ClientModInitializer {
                         JustAnotherModClient.interval = null;
                         context.getSource().sendFeedback(Text.literal("Stopped interval").formatted(Formatting.GREEN));
                     }
-                    default -> context.getSource().sendFeedback(Text.literal("Invalid argument").formatted(Formatting.RED));
+                    default -> context.getSource().sendError(Text.literal("Invalid argument").formatted(Formatting.RED));
                 }
                 return 1;
             }))));
-        }
+        });
+
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
+            JustAnotherModClient.interval = null;
+        });
+
+        ClientTickEvents.START_WORLD_TICK.register(world -> {
+            if (interval != null) {
+                intervalDelay--;
+            }
+        });
+        ClientTickEvents.START_CLIENT_TICK.register(client -> {
+            if (interval != null) {
+                if (intervalDelay <= 0) {
+                    intervalDelay = interval.interval;
+                    if (interval.isRightHand) {
+                        MinecraftClient.getInstance().doItemUse();
+                    } else {
+                        MinecraftClient.getInstance().doAttack();
+                    }
+                }
+            }
+        });
+        
         LOGGER.info("loaded");
     }
+
     public static NbtCompound getEntityNbt(NbtFilter filterType) {
         Entity entity = MinecraftClient.getInstance().targetedEntity;
         if (entity != null) {
@@ -189,7 +194,7 @@ public class JustAnotherModClient implements ClientModInitializer {
         private static final String[] arguments = {"left", "right", "show", "stop"};
 
         @Override
-        public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) throws CommandSyntaxException {
+        public CompletableFuture<Suggestions> getSuggestions(CommandContext<FabricClientCommandSource> context, SuggestionsBuilder builder) {
             for (String argument : arguments)
                 builder.suggest(argument);
             return builder.buildFuture();
